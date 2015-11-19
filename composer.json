@@ -1,13 +1,22 @@
 {
-    "name": "mkenney/bc2",
-    "description": "Bedlam Core 2",
-    "require": {
-        "php": ">=5.4.0"
-    },
-    "autoload": {
+    "name": "mkenney/bc2"
+    , "description": "The Bedlam Core 2 development framework"
+    , "homepage": "https://github.com/mkenney/bc2"
+    , "type": "library"
+    , "license": "MIT"
+    , "authors": [
+        {
+            "name": "Michael Kenney"
+            , "email": "mkenney@webbedlam.com"
+        }
+    ]
+    , "require": {
+        "php": ">=5.4.16"
+    }
+    , "autoload": {
         "psr-0": {
-            "Bdlm": "src/",
-            "Test": "test/"
+            "Bdlm": "src/"
+            , "Test": "test/"
         }
     }
 }
