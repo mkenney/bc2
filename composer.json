@@ -2,7 +2,7 @@
     "name": "mkenney/bc2",
     "description": "Bedlam Core 2",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.4.0"
     },
     "autoload": {
         "psr-0": {
