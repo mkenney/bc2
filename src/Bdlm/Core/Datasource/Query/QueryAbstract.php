@@ -181,7 +181,7 @@ abstract class QueryAbstract extends \Bdlm\Core\Object {
 	 * @param string $result
 	 */
 	public function setResult($result) {
-		if (false !== $result && !$result instanceof \Bdlm\Core\ObjectAbstract) {
+		if (false !== $result && !$result instanceof \Bdlm\Core\Object\Iface\Base) {
 			throw new \RuntimeException('Invalid result set given');
 		}
 		$this->_result = $result;

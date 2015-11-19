@@ -30,14 +30,26 @@ class Pdo extends \Bdlm\Core\Datasource\Datasource {
 	];
 
 	/**
-	 * Always commit on close
+	 * Always roll-back on close
 	 *
 	 * @return void
 	 */
 	final public function __destruct() {
-		if ($this->getConnection() instanceof \PDO) {
-			$this->getConnection()->commit();
+		if (
+			$this->getConnection() instanceof \PDO
+			&& $this->getConnection()->inTransaction()
+		) {
+			$this->getConnection()->rollBack();
 		}
+	}
+
+	/**
+	 * Commit changes, if any
+	 *
+	 * @return boolean
+	 */
+	public function commit() {
+		return $this->getConnection()->commit();
 	}
 
 	/**
@@ -97,5 +109,16 @@ class Pdo extends \Bdlm\Core\Datasource\Datasource {
 	 */
 	public function setDriver($driver) {
 		return $this->set('pdo_driver', (string) $driver);
+	}
+
+	/**
+	 * Quote a value for toString output
+	 * @param  mixed  $value
+	 * @return string
+	 */
+	final public function quote($value) {
+		$quote_char = '';
+		if (!is_numeric($value)) {$quote_char = "'";}
+		return $quote_char.\addslashes($value).$quote_char;
 	}
 }

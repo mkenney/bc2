@@ -40,7 +40,7 @@ class Pdo extends QueryAbstract {
 	 */
 	public function execute($bind_data = null) {
 		if (!is_null($bind_data)) {$this->setData(array_merge($this->getData(), $bind_data));}
-		foreach ($this as $var => $val) {
+		foreach ($this->getData() as $var => $val) {
 			$this->getStatement()->bindValue($var, $val);
 		}
 		$this->_is_executed = true;
@@ -158,7 +158,7 @@ SQL
 		if ($this->getDatasource()->isOci()) {
 			$ret_val = oci_rollback($this->getDatasource());
 		} else {
-			$ret_val = $this->getDatasource()->rollback();
+			$ret_val = $this->getDatasource()->getConnection()->rollBack();
 		}
 		return $ret_val;
 	}
