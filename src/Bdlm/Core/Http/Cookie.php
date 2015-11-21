@@ -8,8 +8,7 @@
  */
 
 namespace Bdlm\Core\Http;
-
-use Bdlm\Core;
+use Bdlm\Core\Object;
 
 /**
  * Cookie management object
@@ -21,43 +20,29 @@ use Bdlm\Core;
  * @package Bdlm
  * @version 1.0.0
  */
-class Cookie extends Core\Object implements Cookie\Iface\Base {
+class Cookie implements
+	Object\Iface\Base
+	, Cookie\Iface\Base
+{
 
 	/**
-	 * The cookie path
-	 * @var string
+	 * Object\Iface\Base implementation
 	 */
-	public $_path = '/';
+	use Object\Mixin\Base;
 
 	/**
-	 * The cookie timeout in seconds, default to 1 day
-	 * @var int
+	 * Http\Cookie\Iface\Base implementation
 	 */
-	public $_timeout = 86400;
-
-	/**
-	 * The cookie domain
-	 * @var string
-	 */
-	public $_domain = '';
-
-	/**
-	 * Require SSL encryption
-	 * @var bool
-	 */
-	public $_secure = false;
-
-	/**
-	 * HTTPOnly flag
-	 * @var bool
-	 */
-		public $_httponly = true;
+	use Cookie\Mixin\Base {
+		Cookie\Mixin\Base::getName insteadof Object\Mixin\Base;
+		Cookie\Mixin\Base::setName insteadof Object\Mixin\Base;
+	}
 
 	/**
 	 * Setup all the defaults and initialize
 	 *
 	 * @param  string $name      The name of the cookie
-	 * @param  int    $timeout   Cookie expire date, Unix timestamp in number of seconds
+	 * @param  int    $timeout   Cookie lifetime in seconds
 	 * @param  string $path      The server path the cookie will be available on
 	 * @param  string $domain    The domain that the cookie is available to
 	 * @param  bool   $secure    If true, cookie data will only be passed on over a secure HTTPS connection
@@ -78,24 +63,22 @@ class Cookie extends Core\Object implements Cookie\Iface\Base {
 		// @todo input validation on names and values
 		//
 		$this->setName(trim($name));
-		$this->timeout((int) $timeout);
-		$this->path(trim($path));
-		$this->domain(trim($domain));
-		$this->secure((bool) $secure);
-		$this->httponly((bool) $http_only);
-		parent::__construct(
-			'' === $this->getName()
-				? $_COOKIE
-				: (
-					isset($_COOKIE[$this->getName()])
-						? $_COOKIE[$this->getName()] // Something isn't right about this.  Can you see it?  I can.  It smells funny.
-						: null
-				)
-		);
+		$this->setTimeout(time() + (int) $timeout);
+		$this->setPath(trim($path));
+		$this->setDomain(trim($domain));
+		$this->setSecure((bool) $secure);
+		$this->setHttpOnly((bool) $http_only);
+
+		if ('' === $this->getName()) {
+			$this->setData($_COOKIE);
+		} elseif (isset($_COOKIE[$this->getName()])) {
+			$this->setData($_COOKIE[$this->getName()]);
+		}
 	}
 
 	/**
 	 * Delete a cookie value
+	 * Overloads \Bdlm\Core\Object::delete
 	 * @param string $var The name of the value to be deleted
 	 * @return Cookie\Iface\Base
 	 * @throws \RuntimeException
@@ -105,15 +88,15 @@ class Cookie extends Core\Object implements Cookie\Iface\Base {
 		// Try to delete the specified cookie value
 		if (
 			!setcookie(
-				$this->name()."[$var]"
+				$this->getName()."[$var]"
 				, false
 				, time() - 86400
-				, $this->path()
-				, $this->domain()
-				, $this->secure()
+				, $this->getPath()
+				, $this->getDomain()
+				, $this->getSecure()
 			)
 		) {
-			throw new \RuntimeException("Could not delete cookie ($this->name[$var])");
+			throw new \RuntimeException("Could not delete cookie ($this->getName[$var])");
 		}
 
 		// Update local value
@@ -121,43 +104,8 @@ class Cookie extends Core\Object implements Cookie\Iface\Base {
 	}
 
 	/**
-	 * Get/set the cookie domain
-	 * @param string $domain
-	 * @return string
-	 */
-	final public function domain($domain = null) {
-		if (!is_null($domain)) {
-			$this->_domain = trim($domain);
-		}
-		return $this->_domain;
-	}
-
-	/**
-	 * HTTPOnly get/set wrapper
-	 * @param bool $httponly
-	 * @return bool
-	 */
-	final public function httponly($httponly = null) {
-		if (is_null($httponly)) {
-			$this->_httponly = (bool) $httponly;
-		}
-		return $this->_httponly;
-	}
-
-	/**
-	 * Get/set the cookie path
-	 * @param string $path
-	 * @return string
-	 */
-	final public function path($path = null) {
-		if (!is_null($path)) {
-			$this->_path = trim($path);
-		}
-		return $this->_path;
-	}
-
-	/**
 	 * Delete all cookies accessable from this cookie object
+	 * Overloads \Bdlm\Core\Object::reset
 	 * @return Cookie\Iface\Base
 	 */
 	final public function reset() {
@@ -172,81 +120,57 @@ class Cookie extends Core\Object implements Cookie\Iface\Base {
 	}
 
 	/**
-	 * Secure get/set wrapper
-	 * @param bool $secure
-	 * @return bool
-	 */
-	final public function secure($secure = null) {
-		if (is_null($secure)) {
-			$this->_secure = (bool) $secure;
-		}
-		return $this->_secure;
-	}
-
-	/**
 	 * Wrap the \Bdlm\Core\Object setter to accommodate the timeout override argument
-	 *
-	 * @param  string $var     The key name
-	 * @param  string $val     The value
-	 * @param  int    $timeout The cookie timeout in seconds
-	 * @return bool
+	 * Overloads \Bdlm\Core\Object::set
+	 * @param  string $var            The key name
+	 * @param  string $val            The value
+	 * @param  int    $timeout        The cookie timeout in seconds
+	 * @return bool|Cookie\Iface\Base False on failure else $this
 	 */
 	public function set($var, $val, $timeout = null) {
+		$var = (string) $var;
+		$val = (string) $val;
 
 		// Init return value
 		$ret_val = false;
 
 		// Set the cookie timeout.  If the timeout value is 0, use a session cookie.
 		if (!is_null($timeout)) {
-			$timeout = ((int) $timeout > 0
-				? time() + (int) $timeout
-				: 0
-			);
+			$timeout = (int) $timeout;
 		} else {
-			$timeout = ((int) $this->timeout() > 0
-				? (int) $this->timeout()
-				: 0
-			);
+			$timeout = $this->getTimeout();
 		}
 
+debug($timeout);
+debug($timeout - time());
 		// Set the cookie value
-		//echo 'setcookie('.$this->name.'['.$var.']'.', '.$val.', '.$timeout.', '.$this->path().', '.$this->domain().', '.$this->secure().");\n";
+		debug(<<<txt
+setcookie(
+	{$this->getName()}[{$var}]
+	, {$val}
+	, {$timeout}
+	, {$this->getPath()}
+	, {$this->getDomain()}
+	, {$this->getSecure()}
+);
+txt
+		);
 		if (
 			setcookie(
-				"{$this->name()}[{$var}]"
+				"{$this->getName()}[{$var}]"
 				, $val
 				, $timeout
-				, $this->path()
-				, $this->domain()
-				, $this->secure()
-				, $this->httponly()
+				, $this->getPath()
+				, $this->getDomain()
+				, $this->getSecure()
+				, $this->getHttpOnly()
 			)
 		) {
 
 			// Update local values
-			$ret_val = parent::set($var, $val);
+			$this->_data[$var] = $val;
+			$ret_val = $this;
 		}
-
 		return $ret_val;
-	}
-
-	/**
-	 * Get/set the default cookie timeout
-	 * @param int $timeout
-	 * @return int
-	 */
-	final public function timeout($timeout = null) {
-		if (!is_null($timeout)) {
-
-			$timeout = (int) $timeout;
-
-			// Create the timeout timestamp, (a value of 0 creates a session cookie)
-			if ($timeout > 0) {
-				$timeout += time();
-			}
-
-			$this->_timeout = $timeout;
-		}
-		return (int) $this->_timeout;
 	}
 }

@@ -10,6 +10,11 @@
 namespace Bdlm\App;
 
 use \Bdlm\Core;
+use \Bdlm\Core\Model;
+use \Bdlm\Core\View;
+use \Bdlm\Core\Controller;
+use \Bdlm\Core\Util;
+use \Bdlm\Core\Http;
 
 /**
  * Represents a system user
@@ -19,11 +24,11 @@ use \Bdlm\Core;
  * @package Bdlm
  * @version 0.1.27
  */
-class User extends \Bdlm\Core\Controller {
+class User extends Controller {
 
-	use Core\Utility\Encryption\Mixin\Boilerplate;
+	use Util\Encryption\Mixin\Boilerplate;
 
-	use Core\Http\Cookie\Mixin\Boilerplate;
+	use Http\Cookie\Mixin\Boilerplate;
 
 	protected $_user_id = null;
 	protected $_session_id = null;
@@ -36,16 +41,20 @@ class User extends \Bdlm\Core\Controller {
 	protected $_is_authenticated = false;
 
 	public function __construct(
-		Core\Model\Iface\Base $model,
-		Core\View\Iface\Base $view,
-		Core\Utility\Config\Iface\Base $config
+		Model\Iface\Base $model
+		, View\Iface\Base $view
+		, Util\Config\Iface\Base $config
+		, $authenticate_http_session = true
 	) {
 		parent::__construct($model, $view, $config);
 
 		$this->setName('user');
-		$this->setCookie(new Core\Http\Cookie($this->getName()));
+		$this->setCookie(new Http\Cookie($this->getName()));
+		$this->setEncryption(new Util\Encryption());
 
-		$this->authenticate();
+		if (true === $authenticate_http_session) {
+			$this->authenticateHttpSession();
+		}
 	}
 
 //	/**
@@ -57,7 +66,7 @@ class User extends \Bdlm\Core\Controller {
 //		$this->setModel(new \Bdlm\App\User\Model($this));
 //		$this->setView(new \Bdlm\App\User\View($this));
 //
-//		//$this->getModel()->setFetchMode(\Bdlm\Core\Model\ModelAbstract::FETCH_BY_ID);
+//		//$this->getModel()->setFetchMode(Model\ModelAbstract::FETCH_BY_ID);
 //		//$this->getModel()->setFetchValue($id);
 //		//$this->getModel()->setFetchColumn('id');
 //
@@ -70,7 +79,7 @@ class User extends \Bdlm\Core\Controller {
 	 * Authenticate a web user
 	 * @return bool
 	 */
-	final public function authenticate() {
+	final public function authenticateHttpSession() {
 		$this->_is_authenticated = false;
 
 		$user_id = 0;
@@ -79,9 +88,9 @@ class User extends \Bdlm\Core\Controller {
 //*
 // Debug
 echo "user_id value in cookie: ".$this->getCookie()->get('user_id');
-Core\Utility::prePrintR($this->getCookie());
+Util::prePrintR($this->getCookie());
 var_dump($cookie_user_id > 0);
-//var_dump($this->getCookie()->getData());
+var_dump($this->getCookie()->getData());
 var_dump($this->getCookie()->has('pwd'));
 var_dump(!$this->getCookie()->isEmpty('pwd'));
 var_dump($this->getCookie()->has('session_id'));
@@ -92,7 +101,7 @@ var_dump(!$this->getCookie()->isEmpty('session_id'));
 		// Check for minimum required information
 		//
 		if (
-			   $cookie_user_id > 0
+			$cookie_user_id > 0
 			&& $this->getCookie()->has('pwd')
 			&& !$this->getCookie()->isEmpty('pwd')
 			&& $this->getCookie()->has('session_id')
@@ -111,7 +120,7 @@ var_dump(!$this->getCookie()->isEmpty('session_id'));
 			");
 			$sql->data(array(
 				'id' => $cookie_user_id,
-				'password' => trim(strip_tags($this->decryptCookieData($this->getCookie()->get('pwd')))),
+				'password' => $this->decryptCookieData($this->getCookie()->get('pwd')),
 			));
 
 			list($user_id, $session_id, $last_activity) = $this->db()->query($sql)->nextRow();

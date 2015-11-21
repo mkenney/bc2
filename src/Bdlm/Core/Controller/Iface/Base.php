@@ -21,17 +21,17 @@ interface Base {
 	/**
 	 * Get the current config instance
 	 *
-	 * @return Utility\Config\Iface\Base|false The current config instance, else false
+	 * @return Util\Config\Iface\Base|false The current config instance, else false
 	 */
 	public function getConfig();
 
 	/**
 	 * Set a config instance for this object to reference
 	 *
-	 * @param Utility\Config\Iface\Base     $config A config instance to reference
+	 * @param Util\Config\Iface\Base     $config A config instance to reference
 	 * @return \Bdlm\Core\Object\Iface\Base         The current instance
 	 */
-	public function setConfig(Core\Utility\Config\Iface\Base $config);
+	public function setConfig(Core\Util\Config\Iface\Base $config);
 
 	/**
 	 * Get the current model instance

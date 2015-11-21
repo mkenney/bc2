@@ -16,7 +16,7 @@ namespace Bdlm\Core;
  * @package Bdlm
  * @version 0.1.0
  */
-class Utility {
+class Util {
 
 	/**
 	 * Convert &lt;br /&gt; tags to newlines (reverse of the PHP nl2br() function)
@@ -69,7 +69,7 @@ fieldset.bc2-debug .title        {font-style: italic;}
 fieldset.bc2-debug hr.section    {padding: 0; margin-bottom: 2em; border: none; border-top: medium double #333; color: #333; text-align: center;}
 </style>
 <fieldset class="bc2-debug">
-	<strong><code><i>\Bdlm\Core\Utility::debug({{$total_arguments} args}])</i></code></strong>
+	<strong><code><i>\Bdlm\Core\Util::debug({{$total_arguments} args}])</i></code></strong>
 	<hr class="section" />
 HTML;
 		$a = 0;

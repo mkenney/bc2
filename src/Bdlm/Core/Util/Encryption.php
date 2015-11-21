@@ -7,7 +7,7 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\Core\Utility;
+namespace Bdlm\Core\Util;
 
 /**
  * Simple data encryption

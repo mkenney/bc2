@@ -7,9 +7,9 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\Core\Utility\Encryption\Mixin;
+namespace Bdlm\Core\Util\Encryption\Mixin;
 
-use Bdlm\Core\Utility;
+use Bdlm\Core\Util;
 
 /**
  * Getter/setter boilerplate for Model instances
@@ -21,18 +21,18 @@ use Bdlm\Core\Utility;
 trait Boilerplate {
 
 	/**
-	 * @var Utility\Encryption\Iface\Base
+	 * @var Util\Encryption\Iface\Base
 	 */
 	protected $_encryption = null;
 
 	/**
 	 * Access the local encryption instance
 	 *
-	 * @return Utility\Encryption\Iface\Base|false The current instance, else false
+	 * @return Util\Encryption\Iface\Base|false The current instance, else false
 	 */
 	public function getEncryption() {
 		$ret_val = false;
-		if ($this->_encryption instanceof Utility\Encryption\Iface\Base) {
+		if ($this->_encryption instanceof Util\Encryption\Iface\Base) {
 			$ret_val = $this->_encryption;
 		}
 		return $ret_val;
@@ -43,7 +43,7 @@ trait Boilerplate {
 	 *
 	 * @return Object\Iface\Base The current instance
 	 */
-	public function setEncryption(Utility\Encryption\Iface\Base $encryption) {
+	public function setEncryption(Util\Encryption\Iface\Base $encryption) {
 		$this->_encryption = $encryption;
 		return $this;
 	}

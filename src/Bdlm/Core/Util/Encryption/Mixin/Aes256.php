@@ -7,10 +7,10 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\Core\Utility\Encryption\Mixin;
+namespace Bdlm\Core\Util\Encryption\Mixin;
 
 /**
- * Implementation for \Bdlm\Core\Utility\Encryption\Iface
+ * Implementation for \Bdlm\Core\Util\Encryption\Iface
  *
  * Requires Mcrypt, implements AES-256 encryption.  Returns and expects UTF-8
  * encoded data

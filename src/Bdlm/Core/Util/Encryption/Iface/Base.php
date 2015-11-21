@@ -7,9 +7,9 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\Core\Utility\Encryption\Iface;
+namespace Bdlm\Core\Util\Encryption\Iface;
 
-use \Bdlm\Core\Utility;
+use \Bdlm\Core\Util;
 
 /**
  * Simple data encryption

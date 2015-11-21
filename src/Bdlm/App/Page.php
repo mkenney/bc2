@@ -20,14 +20,14 @@ use \Bdlm\Core;
  */
 class Page extends \Bdlm\Core\Controller {
 
-	use Core\Utility\Encryption\Mixin\Boilerplate;
+	use Core\Util\Encryption\Mixin\Boilerplate;
 
 	use Core\Http\Cookie\Mixin\Boilerplate;
 
 	public function __construct(
-		Core\Model\Iface\Base $model,
-		Core\View\Iface\Base $view,
-		Core\Utility\Config\Iface\Base $config
+		Core\Model\Iface\Base $model
+		, Core\View\Iface\Base $view
+		, Core\Util\Config\Iface\Base $config
 	) {
 		parent::__construct($model, $view, $config);
 

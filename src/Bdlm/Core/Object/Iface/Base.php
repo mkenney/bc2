@@ -29,19 +29,29 @@ interface Base {
 	 *
 	 * This could lead to unexpected behavior if you're not paying attention.
 	 *
-	 * @param   string             $var The name of the value
-	 * @param   mixed              $val The value to store
-	 * @return  Core\Object\Iface\Base $this
-	 * @throws  \DomainException  If mode is static
-	 * @throws  \DomainException  If mode is fixed and $var is not a valid key
+	 * @param  string            $var The name of the value
+	 * @param  mixed             $val The value to store
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \DomainException  If mode is static
+	 * @throws \DomainException  If mode is fixed and $var is not a valid key
 	 */
 	public function add($var, $val);
+
+	/**
+	 * Delete a locally stored value by name
+	 *
+	 * @param string $var The variable name
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \DomainException If mode is static
+	 * @throws \DomainException If mode is fixed and $var is not a valid key
+	 */
+	public function delete($var);
 
 	/**
 	 * Get a locally stored value by name
 	 *
 	 * @param string $var The variable name
-	 * @return mixed
+	 * @return mixed|null The current value, else null
 	 */
 	public function get($var);
 
@@ -63,6 +73,58 @@ interface Base {
 	 * @return array
 	 */
 	public function getData();
+
+	/**
+	 * Get the max boundary property
+	 *
+	 * Throw an exception if "max" has no meaning in your class.
+	 *
+	 * @return int|false Current max value else false
+	 */
+	public function getMax();
+
+	/**
+	 * Get the min boundary property
+	 *
+	 * Throw an exception if "min" has no meaning in your class.
+	 *
+	 * @return int|false Current min value else false
+	 */
+	public function getMin();
+
+	/**
+	 * Get the object mode property
+	 *
+	 * The object mode may be one of:
+	 *  - 'list'
+	 *	- 'fixed'
+	 *  - 'singleton'
+	 *
+	 * Singleton mode should make objects act as an array with one and only one element.
+	 * Fixed mode should make objects act as an array with fixed keys.
+	 * List mode is the default behavior
+	 *
+	 * Throw an exception if "mode" has no meaning in your class.
+	 *
+	 * @return string|false A valid mode else false
+	 */
+	public function getMode();
+
+	/**
+	 * Get the object name property
+	 *
+	 * Throw an exception if "name" has no meaning in your class.
+	 *
+	 * @return string|null
+	 */
+	public function getName();
+
+	/**
+	 * Get the "type" property
+	 *
+	 * @return string|false The current type value, else false
+	 */
+	public function getType($type = null);
 
 	/**
 	 * Check to see if a value has been set
@@ -95,14 +157,35 @@ interface Base {
 	public function isStatic($is_static = null);
 
 	/**
-	 * Get the max boundary property
+	 * Delete all locally stored values
 	 *
-	 * Throw an exception if "max" has no meaning in your class.
-	 *
-	 * @return int|false Current max value else false
-	 * @throws \InvalidArgumentException If $max is smaller than $min
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \DomainException If mode is static
 	 */
-	public function getMax();
+	public function reset();
+
+	/**
+	 * Store a named value locally
+	 *
+	 * @param string $var The name of the value
+	 * @param mixed $val         The value to store
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \DomainException  If mode is static
+	 * @throws \DomainException  If mode is fixed and $var is not a valid key
+	 */
+	public function set($var, $val);
+
+	/**
+	 * Set or replace the entire internal data storage array
+	 *
+	 * @param array $data
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \DomainException If mode is static
+	 * @throws \DomainException If mode is fixed and an existing key is missing from $data
+	 * @throws \DomainException If mode is fixed and any of the keys in $data is not a valid key
+	 * @throws \DomainException If any value in $data is not a valid type
+	 */
+	public function setData($data);
 
 	/**
 	 * Set the max boundary property
@@ -118,15 +201,6 @@ interface Base {
 	public function setMax($max);
 
 	/**
-	 * Get the min boundary property
-	 *
-	 * Throw an exception if "min" has no meaning in your class.
-	 *
-	 * @return int|false Current min value else false
-	 */
-	public function getMin();
-
-	/**
 	 * Set the min boundary property
 	 *
 	 * Return $this to chain calls
@@ -138,24 +212,6 @@ interface Base {
 	 * @throws \InvalidArgumentException If $min is greater than $max or is otherwise invalid
 	 */
 	public function setMin($min);
-
-	/**
-	 * Get the object mode property
-	 *
-	 * The object mode may be one of:
-	 *  - 'list'
-	 *	- 'fixed'
-	 *  - 'singleton'
-	 *
-	 * Singleton mode should make objects act as an array with one and only one element.
-	 * Fixed mode should make objects act as an array with fixed keys.
-	 * List mode is the default behavior
-	 *
-	 * Throw an exception if "mode" has no meaning in your class.
-	 *
-	 * @return string|false A valid mode else false
-	 */
-	public function getMode();
 
 	/**
 	 * Set the object mode property
@@ -180,15 +236,6 @@ interface Base {
 	public function setMode($mode);
 
 	/**
-	 * Get the object name property
-	 *
-	 * Throw an exception if "name" has no meaning in your class.
-	 *
-	 * @return string|null
-	 */
-	public function getName();
-
-	/**
 	 * Set the object name property
 	 *
 	 * Return $this to chain calls
@@ -202,38 +249,19 @@ interface Base {
 	public function setName($name);
 
 	/**
-	 * Delete all locally stored values
+	 * Set the "type" property
 	 *
+	 * @param  string $type
 	 * @return Core\Object\Iface\Base $this
-	 * @throws \DomainException  If mode is static
+	 * @throws \RuntimeException If the type property has already been set
+	 * @throws \DomainException  If the $type value is empty or not a string
+	 * @throws \DomainException  If the $type value an invalid type
+	 * @throws \DomainException  If any data that has already been stored is not of type $type
 	 */
-	public function reset();
+	public function setType($type);
 
 	/**
-	 * Store a named value locally
-	 *
-	 * @param string             $var  The name of the value
-	 * @param mixed              $val  The value to store
-	 * @return Core\Object\Iface\Base $this
-	 * @throws \DomainException        If mode is static
-	 * @throws \DomainException        If mode is fixed and $var is not a valid key
-	 */
-	public function set($var, $val);
-
-	/**
-	 * Set or replace the entire internal data storage array
-	 *
-	 * @param array $data
-	 * @return bool
-	 * @throws \DomainException If mode is static
-	 * @throws \DomainException If mode is fixed and an existing key is missing from $data
-	 * @throws \DomainException If mode is fixed and any of the keys in $data is not a valid key
-	 * @throws \DomainException If any value in $data is not a valid type
-	 */
-	public function setData($data);
-
-	/**
-	 * Recursively convert any \Bdlm\Core\ObjectAbstract instances in the internal
+	 * Recursively convert any Object\Iface\Base instances in the internal
 	 * data storage array to an array and return the result
 	 *
 	 * @return array
@@ -248,6 +276,13 @@ interface Base {
 	 * @throws \Exception
 	 */
 	public function toJson();
+
+	/**
+	 * Recursively convert stored arrays to Object instances
+	 *
+	 * @return string Object\Iface\Base
+	 */
+	public function toObject($data = null);
 
 	/**
 	 * Convert the data array to a text representation, default JSON
@@ -265,33 +300,4 @@ interface Base {
 	 * @throws \Exception
 	 */
 	public function toXml($array = null);
-
-	/**
-	 * Get the "type" property
-	 *
-	 * @return string|false The current type value, else false
-	 */
-	public function getType($type = null);
-
-	/**
-	 * Set the "type" property
-	 *
-	 * @param  string $type
-	 * @return Core\Object\Iface\Base $this
-	 * @throws \RuntimeException If the type property has already been set
-	 * @throws \DomainException  If the $type value is empty or not a string
-	 * @throws \DomainException  If the $type value an invalid type
-	 * @throws \DomainException  If any data that has already been stored is not of type $type
-	 */
-	public function setType($type);
-
-	/**
-	 * Delete a locally stored value by name
-	 *
-	 * @param string $var The variable name
-	 * @return Core\Object\Iface\Base $this
-	 * @throws \DomainException If mode is static
-	 * @throws \DomainException If mode is fixed and $var is not a valid key
-	 */
-	public function delete($var);
 }

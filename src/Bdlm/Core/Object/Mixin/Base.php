@@ -121,6 +121,29 @@ trait Base {
 	}
 
 	/**
+	 * Delete a locally stored value by name
+	 *
+	 * @param string $var The variable name
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \DomainException If mode is static
+	 * @throws \DomainException If mode is fixed and $var is not a valid key
+	 */
+	public function delete($var) {
+
+		if ($this->isStatic()) {
+			throw new \DomainException("Static objects cannot be modified.");
+		}
+
+		$var = (string) $var;
+		if (!$this->has($var)) {
+			throw new \DomainException("This is a fixed list and the specified key ('{$var}') does not exist.");
+		}
+
+		unset($this->_data[$var]);
+		return $this;
+	}
+
+	/**
 	 * Get a locally stored value by name
 	 *
 	 * @param string $var The variable name
@@ -157,6 +180,88 @@ trait Base {
 	 */
 	public function getData() {
 		return $this->_data;
+	}
+
+	/**
+	 * Get the max boundary property
+	 *
+	 * Throw an exception if "max" has no meaning in your class.
+	 *
+	 * @return int|false Current max value else false
+	 */
+	public function getMax() {
+		$ret_val = false;
+		if (!is_null($this->_max)) {
+			$ret_val = (float) $this->_max;
+		}
+		return $ret_val;
+	}
+
+	/**
+	 * Get the min boundary property
+	 *
+	 * Throw an exception if "min" has no meaning in your class.
+	 *
+	 * @return int|false Current min value else false
+	 */
+	public function getMin() {
+		$ret_val = false;
+		if (!is_null($this->_min)) {
+			$ret_val = (float) $this->_min;
+		}
+		return $ret_val;
+	}
+
+	/**
+	 * Get the object mode property
+	 *
+	 * The object mode may be one of:
+	 *  - 'list'
+	 *	- 'fixed'
+	 *  - 'singleton'
+	 *
+	 * Singleton mode should make objects act as an array with one and only one element.
+	 * Fixed mode should make objects act as an array with fixed keys.
+	 * List mode is the default behavior
+	 *
+	 * Throw an exception if "mode" has no meaning in your class.
+	 *
+	 * @return string|false A valid mode else false
+	 */
+	public function getMode() {
+		$ret_val = false;
+		switch ($this->_mode) {
+			case 'list':
+			case 'fixed':
+			case 'singleton':
+				$ret_val = $this->_mode;
+			break;
+		}
+		return $ret_val;
+	}
+
+	/**
+	 * Get the object name property
+	 *
+	 * Throw an exception if "name" has no meaning in your class.
+	 *
+	 * @return string|null
+	 */
+	public function getName() {
+		return $this->_name;
+	}
+
+	/**
+	 * Get the "type" property
+	 *
+	 * @return string|false The current type value, else false
+	 */
+	public function getType($type = null) {
+		$ret_val = false;
+		if (!is_null($this->_type)) {
+			$ret_val = (string) $this->_type;
+		}
+		return $ret_val;
 	}
 
 	/**
@@ -208,160 +313,6 @@ trait Base {
 			$this->_is_static = (bool) $is_static;
 		}
 		return $this->_is_static;
-	}
-
-	/**
-	 * Get the max boundary property
-	 *
-	 * Throw an exception if "max" has no meaning in your class.
-	 *
-	 * @return int|false Current max value else false
-	 */
-	public function getMax() {
-		$ret_val = false;
-		if (!is_null($this->_max)) {
-			$ret_val = (float) $this->_max;
-		}
-		return $ret_val;
-	}
-
-	/**
-	 * Set the max boundary property
-	 *
-	 * Return $this to chain calls
-	 *
-	 * Throw an exception if "max" has no meaning in your class.
-	 *
-	 * @param int $max
-	 * @return Core\Object\Iface\Base $this
-	 * @throws \InvalidArgumentException If $max is smaller than $min or is otherwise invalid
-	 */
-	public function setMax($max) {
-		if (method_exists($this, 'isValidMax') && !$this->isValidMax($max)) {
-			throw new \InvalidArgumentException("Invalid \$max value ($max).  Must be numeric and greater than \$this->min().");
-		}
-		$this->_max = (float) $max;
-		return $this;
-	}
-
-	/**
-	 * Get the min boundary property
-	 *
-	 * Throw an exception if "min" has no meaning in your class.
-	 *
-	 * @return int|false Current min value else false
-	 */
-	public function getMin() {
-		$ret_val = false;
-		if (!is_null($this->_min)) {
-			$ret_val = (float) $this->_min;
-		}
-		return $ret_val;
-	}
-
-	/**
-	 * Set the min boundary property
-	 *
-	 * Return $this to chain calls
-	 *
-	 * Throw an exception if "min" has no meaning in your class.
-	 *
-	 * @param  float $min
-	 * @return Core\Object\Iface\Base $this
-	 * @throws \InvalidArgumentException If $min is greater than $max or is otherwise invalid
-	 */
-	public function setMin($min) {
-		if (method_exists($this, 'isValidMin') && !$this->isValidMin($min)) {
-			throw new \InvalidArgumentException("Invalid \$min value ($min).  Must be numeric and smaller than \$this->max().");
-		}
-		$this->_min = (float) $min;
-		return $this->_min;
-	}
-
-	/**
-	 * Get the object mode property
-	 *
-	 * The object mode may be one of:
-	 *  - 'list'
-	 *	- 'fixed'
-	 *  - 'singleton'
-	 *
-	 * Singleton mode should make objects act as an array with one and only one element.
-	 * Fixed mode should make objects act as an array with fixed keys.
-	 * List mode is the default behavior
-	 *
-	 * Throw an exception if "mode" has no meaning in your class.
-	 *
-	 * @return string|false A valid mode else false
-	 */
-	public function getMode() {
-		$ret_val = false;
-		switch ($this->_mode) {
-			case 'list':
-			case 'fixed':
-			case 'singleton':
-				$ret_val = $this->_mode;
-			break;
-		}
-		return $ret_val;
-	}
-
-	/**
-	 * Set the object mode property
-	 *
-	 * The object mode may be one of:
-	 *  - 'list'
-	 *	- 'fixed'
-	 *  - 'singleton'
-	 *
-	 * Singleton mode should make objects act as an array with one and only one element.
-	 * Fixed mode should make objects act as an array with fixed keys.
-	 * List mode is the default behavior
-	 *
-	 * Return $this to chain calls
-	 *
-	 * Throw an exception if "mode" has no meaning in your class.
-	 *
-	 * @param string $mode
-	 * @return Core\Object\Iface\Base $this
-	 * @throws \InvalidArgumentException If $mode is not a valid value
-	 */
-	public function setMode($mode) {
-		if (method_exists($this, 'isValidMode') && !$this->isValidMode($mode)) {
-			throw new \InvalidArgumentException("Invalid mode given '$mode'");
-		}
-		$this->_mode = $mode;
-		return $this;
-	}
-
-	/**
-	 * Get the object name property
-	 *
-	 * Throw an exception if "name" has no meaning in your class.
-	 *
-	 * @return string|null
-	 */
-	public function getName() {
-		return $this->_name;
-	}
-
-	/**
-	 * Set the object name property
-	 *
-	 * Return $this to chain calls
-	 *
-	 * Throw an exception if "name" has no meaning in your class.
-	 *
-	 * @param string $name
-	 * @return Core\Object\Iface\Base $this
-	 * @throws \InvalidArgumentException
-	 */
-	public function setName($name) {
-		if (method_exists($this, 'isValidName') && !$this->isValidName($name)) {
-			throw new \InvalidArgumentException("'$name' is not a valid name");
-		}
-		$this->_name = (string) $name;
-		return $this;
 	}
 
 	/**
@@ -471,6 +422,122 @@ trait Base {
 	}
 
 	/**
+	 * Set the max boundary property
+	 *
+	 * Return $this to chain calls
+	 *
+	 * Throw an exception if "max" has no meaning in your class.
+	 *
+	 * @param int $max
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \InvalidArgumentException If $max is smaller than $min or is otherwise invalid
+	 */
+	public function setMax($max) {
+		if (method_exists($this, 'isValidMax') && !$this->isValidMax($max)) {
+			throw new \InvalidArgumentException("Invalid \$max value ($max).  Must be numeric and greater than \$this->min().");
+		}
+		$this->_max = (float) $max;
+		return $this;
+	}
+
+	/**
+	 * Set the min boundary property
+	 *
+	 * Return $this to chain calls
+	 *
+	 * Throw an exception if "min" has no meaning in your class.
+	 *
+	 * @param  float $min
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \InvalidArgumentException If $min is greater than $max or is otherwise invalid
+	 */
+	public function setMin($min) {
+		if (method_exists($this, 'isValidMin') && !$this->isValidMin($min)) {
+			throw new \InvalidArgumentException("Invalid \$min value ($min).  Must be numeric and smaller than \$this->max().");
+		}
+		$this->_min = (float) $min;
+		return $this->_min;
+	}
+
+	/**
+	 * Set the object mode property
+	 *
+	 * The object mode may be one of:
+	 *  - 'list'
+	 *	- 'fixed'
+	 *  - 'singleton'
+	 *
+	 * Singleton mode should make objects act as an array with one and only one element.
+	 * Fixed mode should make objects act as an array with fixed keys.
+	 * List mode is the default behavior
+	 *
+	 * Return $this to chain calls
+	 *
+	 * Throw an exception if "mode" has no meaning in your class.
+	 *
+	 * @param string $mode
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \InvalidArgumentException If $mode is not a valid value
+	 */
+	public function setMode($mode) {
+		if (method_exists($this, 'isValidMode') && !$this->isValidMode($mode)) {
+			throw new \InvalidArgumentException("Invalid mode given '$mode'");
+		}
+		$this->_mode = $mode;
+		return $this;
+	}
+
+	/**
+	 * Set the object name property
+	 *
+	 * Return $this to chain calls
+	 *
+	 * Throw an exception if "name" has no meaning in your class.
+	 *
+	 * @param string $name
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \InvalidArgumentException
+	 */
+	public function setName($name) {
+		if (method_exists($this, 'isValidName') && !$this->isValidName($name)) {
+			throw new \InvalidArgumentException("'$name' is not a valid name");
+		}
+		$this->_name = (string) $name;
+		return $this;
+	}
+
+	/**
+	 * Set the "type" property
+	 *
+	 * @param  string $type
+	 * @return Core\Object\Iface\Base $this
+	 * @throws \RuntimeException If the type property has already been set
+	 * @throws \DomainException  If the $type value is empty or not a string
+	 * @throws \DomainException  If the $type value an invalid type
+	 * @throws \DomainException  If any data that has already been stored is not of type $type
+	 */
+	public function setType($type) {
+		if (!is_null($this->_type)) {
+			throw new \RuntimeException("This object's type property has already been set");
+
+		} elseif ('' === trim($type)) {
+			throw new \DomainException("'type' must be a string and must not be empty");
+
+		} elseif (method_exists($this, 'isValidType') && !$this->isValidType($type)) {
+			throw new \DomainException("Invalid type '$type'");
+		}
+
+		$this->_type = $type;
+		if (method_exists($this, 'validateData')) {
+			foreach ($this->getData() as $val) {
+				// throws \DomainException if data is not of type $this->getType()
+				$this->validateData($val);
+			}
+		}
+		return $this;
+	}
+
+	/**
 	 * Recursively convert any Object\Iface\Base instances in the internal
 	 * data storage array to an array and return the result
 	 *
@@ -570,72 +637,5 @@ trait Base {
 			$xml .= "</$k>";
 		}
 		return $xml;
-	}
-
-	/**
-	 * Get the "type" property
-	 *
-	 * @return string|false The current type value, else false
-	 */
-	public function getType($type = null) {
-		$ret_val = false;
-		if (!is_null($this->_type)) {
-			$ret_val = (string) $this->_type;
-		}
-		return $ret_val;
-	}
-
-	/**
-	 * Set the "type" property
-	 *
-	 * @param  string $type
-	 * @return Core\Object\Iface\Base $this
-	 * @throws \RuntimeException If the type property has already been set
-	 * @throws \DomainException  If the $type value is empty or not a string
-	 * @throws \DomainException  If the $type value an invalid type
-	 * @throws \DomainException  If any data that has already been stored is not of type $type
-	 */
-	public function setType($type) {
-		if (!is_null($this->_type)) {
-			throw new \RuntimeException("This object's type property has already been set");
-
-		} elseif ('' === trim($type)) {
-			throw new \DomainException("'type' must be a string and must not be empty");
-
-		} elseif (method_exists($this, 'isValidType') && !$this->isValidType($type)) {
-			throw new \DomainException("Invalid type '$type'");
-		}
-
-		$this->_type = $type;
-		if (method_exists($this, 'validateData')) {
-			foreach ($this->getData() as $val) {
-				// throws \DomainException if data is not of type $this->getType()
-				$this->validateData($val);
-			}
-		}
-		return $this;
-	}
-
-	/**
-	 * Delete a locally stored value by name
-	 *
-	 * @param string $var The variable name
-	 * @return Core\Object\Iface\Base $this
-	 * @throws \DomainException If mode is static
-	 * @throws \DomainException If mode is fixed and $var is not a valid key
-	 */
-	public function delete($var) {
-
-		if ($this->isStatic()) {
-			throw new \DomainException("Static objects cannot be modified.");
-		}
-
-		$var = (string) $var;
-		if (!$this->has($var)) {
-			throw new \DomainException("This is a fixed list and the specified key ('{$var}') does not exist.");
-		}
-
-		unset($this->_data[$var]);
-		return $this;
 	}
 }

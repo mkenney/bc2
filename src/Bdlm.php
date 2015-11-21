@@ -18,7 +18,7 @@ class Bdlm {
 
 	/**
 	 * Config file manager
-	 * @var \Bdlm\Core\Utility\Config\Iface\Base
+	 * @var \Bdlm\Core\Util\Config\Iface\Base
 	 */
 	protected static $config = null;
 
@@ -39,8 +39,8 @@ class Bdlm {
 	 * @return void
 	 */
 	public static function init() {
-		if (!self::$config instanceof \Bdlm\Core\Utility\Config\Iface\Base) {
-			self::$config = new \Bdlm\Core\Utility\Config();
+		if (!self::$config instanceof \Bdlm\Core\Util\Config\Iface\Base) {
+			self::$config = new \Bdlm\Core\Util\Config();
 		}
 		if (!self::$data instanceof \Bdlm\Core\Object\Iface\Base) {
 			self::$data = new \Bdlm\Core\Object();
@@ -49,11 +49,11 @@ class Bdlm {
 
 	/**
 	 * Get / set a configuration object instance
-	 * @param  \Bdlm\Core\Utility\Config\Iface\Base $config A config object instance
-	 * @return \Bdlm\Core\Utility\Config\Iface\Base
+	 * @param  \Bdlm\Core\Util\Config\Iface\Base $config A config object instance
+	 * @return \Bdlm\Core\Util\Config\Iface\Base
 	 */
 	public static function config($config = null) {
-		if ($config instanceof \Bdlm\Core\Utility\Config\Iface\Base) {
+		if ($config instanceof \Bdlm\Core\Util\Config\Iface\Base) {
 			self::$config = $config;
 		}
 		if (is_null(self::$config)) {

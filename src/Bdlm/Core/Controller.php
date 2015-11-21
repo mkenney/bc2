@@ -34,7 +34,7 @@ class Controller extends Object implements Controller\Iface\Base {
 	 * Config boilerplate to implement Controller\Iface\Base
 	 * @trait
 	 */
-	use Utility\Config\Mixin\Boilerplate;
+	use Util\Config\Mixin\Boilerplate;
 
 	/**
 	 * Initialize this controller
@@ -42,7 +42,7 @@ class Controller extends Object implements Controller\Iface\Base {
 	 * @param \Bdlm\Core\Model $model The Model this controller should use
 	 * @param \Bdlm\Core\View  $view  The View this controller should use
 	 */
-	public function __construct(Model\Iface\Base $model, View\Iface\Base $view, Utility\Config\Iface\Base $config = null) {
+	public function __construct(Model\Iface\Base $model, View\Iface\Base $view, Util\Config\Iface\Base $config = null) {
 		$this->setModel($model);
 		$this->setView($view);
 		if (!is_null($config)) {

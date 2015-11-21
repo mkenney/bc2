@@ -8,6 +8,7 @@
  */
 
 namespace Bdlm\Core\Object\Mixin;
+use Bdlm\Core\Util;
 
 /**
  * Implementations for \Bdlm\Core\Object\Iface\Validation
@@ -27,7 +28,7 @@ trait Validation {
 	public function isValidMax($max) {
 		$ret_val = true;
 		if (
-			!Utility::isNum($max)
+			!Util::isNum($max)
 			|| (
 				!is_null($this->getMin())
 				&& (float) $max < $this->getMin()
@@ -46,7 +47,7 @@ trait Validation {
 	public function isValidMin($min) {
 		$ret_val = true;
 		if (
-			!Utility::isNum($min)
+			!Util::isNum($min)
 			|| (
 				!is_null($this->getMax())
 				&& (float) $min > $this->getMax()
@@ -164,7 +165,7 @@ trait Validation {
 			break;
 
 			case 'date':
-				if (Utility::isNum($data)) {
+				if (Util::isNum($data)) {
 					$size = (float) $data;
 					if (0 > $size) {
 						throw new \DomainException("Invalid date value, $data seconds", self::INVALID_TYPE_DATE);
@@ -187,7 +188,7 @@ trait Validation {
 
 			case 'double':
 			case 'float':
-				if (!Utility::isNum($data)) {throw new \DomainException('Invalid data type \''.gettype($data).'\', expecting \'float\'.', self::INVALID_TYPE_DOUBLE);}
+				if (!Util::isNum($data)) {throw new \DomainException('Invalid data type \''.gettype($data).'\', expecting \'float\'.', self::INVALID_TYPE_DOUBLE);}
 				$size = (float) $data;
 				if (
 					(!is_null($this->getMax()) && $size > (float) $this->getMax())
@@ -216,7 +217,7 @@ trait Validation {
 			case 'integer':
 			case 'long':
 			case 'real':
-				if (!Utility::isNum($data, true)) {
+				if (!Util::isNum($data, true)) {
 					throw new \DomainException('Invalid data type \''.gettype($data).'\', expecting \'int\'.', self::INVALID_TYPE_INTEGER);
 				}
 				$size = (int) $data;

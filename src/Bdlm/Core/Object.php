@@ -20,7 +20,7 @@ namespace Bdlm\Core;
  *
  * The meaning of the max and min boundaries should be semantically dependent on
  * the type of data.  For example, a max of 10 on a type of 'int' means it's
- * value must be <= 10, but for a type of 'string' it must be <= 10 characters.
+ * value should be <= 10, but for a type of 'string' it should be <= 10 characters.
  *
  * type, max and min apply to each stored value individually, meaning that every
  * item stored here must meet those requirements.

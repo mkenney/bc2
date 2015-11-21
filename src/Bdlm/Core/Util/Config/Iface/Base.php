@@ -7,9 +7,9 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\Core\Utility\Config\Iface;
+namespace Bdlm\Core\Util\Config\Iface;
 
-use \Bdlm\Core\Utility;
+use \Bdlm\Core\Util;
 
 /**
  * Base config interface

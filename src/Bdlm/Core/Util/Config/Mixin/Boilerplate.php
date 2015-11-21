@@ -7,9 +7,9 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\Core\Utility\Config\Mixin;
+namespace Bdlm\Core\Util\Config\Mixin;
 
-use \Bdlm\Core\Utility;
+use \Bdlm\Core\Util;
 
 /**
  * Getter/setter boilerplate for config instances
@@ -21,18 +21,18 @@ use \Bdlm\Core\Utility;
 trait Boilerplate {
 
 	/**
-	 * @var Utility\Config\Iface\Base
+	 * @var Util\Config\Iface\Base
 	 */
 	protected $_config = null;
 
 	/**
 	 * Get the current config instance
 	 *
-	 * @return Utility\Config\Iface\Base|false The current config instance, else false
+	 * @return Util\Config\Iface\Base|false The current config instance, else false
 	 */
 	public function getConfig() {
 		$ret_val = false;
-		if ($this->_config instanceof Utility\Config\Iface\Base) {
+		if ($this->_config instanceof Util\Config\Iface\Base) {
 			$ret_val = $this->_config;
 		}
 		return $this->_config;
@@ -41,10 +41,10 @@ trait Boilerplate {
 	/**
 	 * Set a config instance for this object to reference
 	 *
-	 * @param Utility\Config\Iface\Base     $config A config instance to reference
+	 * @param Util\Config\Iface\Base     $config A config instance to reference
 	 * @return \Bdlm\Core\Object\Iface\Base         The current instance
 	 */
-	public function setConfig(Utility\Config\Iface\Base $config) {
+	public function setConfig(Util\Config\Iface\Base $config) {
 		$this->_config = $config;
 		return $this;
 	}
