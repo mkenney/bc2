@@ -20,7 +20,7 @@ use \Bdlm\Core;
  * @package Bdlm
  * @version 0.0.1
  */
-abstract class Datasource implements
+abstract class DatasourceAbstract implements
 	  Iface\Base
 	, Core\Object\Iface\Base
 	, Core\Object\Iface\Magic

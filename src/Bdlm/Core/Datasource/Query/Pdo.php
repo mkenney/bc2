@@ -77,12 +77,12 @@ class Pdo extends QueryAbstract {
 <<<SQL
 SELECT *
 FROM (
-	SELECT SUBQ.*, ROWNUM MINROW_D6E9471E782D42 -- Random name that one one will use...
+	SELECT subq.*, ROWNUM minrow_d6e9471e782d42 -- Random name that one one will use...
 	FROM (
 		{$this->getQuery()}
-	) SUBQ
+	) subq
 	WHERE ROWNUM < {$end}
-) WHERE MINROW_D6E9471E782D42 >= {$start}
+) WHERE minrow_d6e9471e782d42 >= {$start}
 SQL
 				);
 			break;
@@ -95,8 +95,8 @@ SQL
 SELECT *
 FROM (
 	{$this->getQuery()}
-) SUBQ
-LIMIT {$start}, {$end}
+) subq
+LIMIT {$start}, {$rows}
 SQL
 				);
 			break;

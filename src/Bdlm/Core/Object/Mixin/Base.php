@@ -216,7 +216,6 @@ trait Base {
 	 * Throw an exception if "max" has no meaning in your class.
 	 *
 	 * @return int|false Current max value else false
-	 * @throws \InvalidArgumentException If $max is smaller than $min
 	 */
 	public function getMax() {
 		$ret_val = false;

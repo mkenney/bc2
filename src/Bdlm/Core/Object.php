@@ -31,7 +31,7 @@ namespace Bdlm\Core;
  * @todo write unit tests
  */
 class Object implements
-	  Object\Iface\Base
+	Object\Iface\Base
 	, Object\Iface\Magic
 	, Object\Iface\Validation
 	, \Iterator
@@ -73,7 +73,8 @@ class Object implements
 	 *
 	 * If data is an array, it is stored as-is, otherwise it's typed as an array first.
 	 *
-	 * @param mixed $data The initial data to store in the new object
+	 * @param mixed $data   The initial data to store in the new object
+	 * @param bool  $nested If true, recursivly convert $data to nested objec instances
 	 * @return Bdlm_Object
 	 */
 	public function __construct($data = null, $nested = false) {

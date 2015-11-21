@@ -18,14 +18,14 @@ namespace Bdlm\Core\Datasource;
  * @package Bdlm
  * @version 0.0.1
  */
-class Pdo extends \Bdlm\Core\Datasource\Datasource {
+class Pdo extends DatasourceAbstract {
 
 	/**
 	 * Default values
 	 * @var array
 	 */
 	protected $_data = [
-		'type'   => Datasource::TYPE_PDO,
+		'type'   => DatasourceAbstract::TYPE_PDO,
 		'is_oci' => false,
 	];
 
@@ -55,7 +55,7 @@ class Pdo extends \Bdlm\Core\Datasource\Datasource {
 	/**
 	 * Connect to the database
 	 *
-	 * @return Datasource $this
+	 * @return DatasourceAbstract $this
 	 */
 	public function connect() {
 		$this->setConnection(new \PDO($this->getDsn(), $this->getUsername(), $this->getPassword()));
