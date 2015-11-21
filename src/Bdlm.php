@@ -88,6 +88,24 @@ class Bdlm {
 	}
 
 	/**
+	 * Delete a locally stored value by name
+	 * @param  string $var The variable name
+	 * @return mixed
+	 */
+	public static function delete($var) {
+		return self::$data->delete($var);
+	}
+
+	/**
+	 * See if a locally stored value exists
+	 * @param  string $var The variable name
+	 * @return mixed
+	 */
+	public static function has($var) {
+		return self::$data->has($var);
+	}
+
+	/**
 	 * Store a named value locally
 	 * @param  string    $var   The name of the value
 	 * @param  mixed     $val   The value to store
