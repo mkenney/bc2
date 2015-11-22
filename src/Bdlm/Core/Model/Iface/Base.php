@@ -18,63 +18,39 @@ use \Bdlm\Core;
  * @package Bdlm
  * @version 0.0.1
  */
-interface Base {
-
-    const FETCH_BY_ID = 1;
-    const FETCH_BY_NAME = 2;
-    const FETCH_BY_COLUMN_VALUE = 3;
-    const FETCH_BY_NAMED_QUERY = 4;
-
+interface Base extends \Bdlm\Core\Object\Iface\Base {
     /**
-     * Delete a locally stored value by name
+     * Get the unique identifier (primary key) for this record.
      *
-     * @param  string $var The variable name
-     * @return Core\Model\Iface\Base
-     * @throws \DomainException If mode is static
-     * @throws \DomainException If mode is fixed and $var is not a valid key
+     * @return int|string The unique ID, or a string of all keys if it's multi-keyed.
+     * @throws Bdlm_Exception
      */
-    public function unset($var);
-
+    public function getId();
     /**
-     * Get a locally stored value by name
+     * Get the columns that make up the unique record identifier
      *
-     * @param string $var The variable name
-     * @return mixed
+     * @return array          The list of field names that define the primary key
+     * @throws Bdlm_Exception
      */
-    public function get($var);
-
+    public function getPk();
     /**
-     * Get the internal data array
-     *
-     * Wouldn't be necessary with all the iterator/ArrayAccess/etc. stuff but
-     * some PHP functions will only accept an array, so... :(
-     *
-     * Could use toArray() instead but that's recursive and so could be slow.
-     *
-     * @return array
+     * Get/set the dirty flag
+     * @param  bool $dirty
+     * @return bool
      */
-    public function getData();
-
+    public function isDirty($dirty = null);
     /**
-     * Check to see if a value has been set
-     *
-     * @param string $var The variable name
-     * @return bool True if set, else false
+     * Get/set the loaded flag
+     * @param  bool $loaded
+     * @return bool
      */
-    public function has($var);
-
+    public function isLoaded($loaded = null);
     /**
-     * Check to see if a value should be considered "empty"
-     *
-     * The empty() call is wrapped to trap false-positives for the string '0'
-     * (http://php.net/empty).  If this is called with no arguments it checks to
-     * see if any data has been stored yet.
-     *
-     * @param string $var The variable name
-     * @return bool True if empty, else false
+     * Get/set the loading flag
+     * @param  bool $loading
+     * @return bool
      */
-    public function isEmpty($var = null);
-
+    public function isLoading($loading = null);
     /**
      * Load data relevant to this object
      *
@@ -85,15 +61,6 @@ interface Base {
      * @throws \Exception on failure
      */
     public function load();
-
-    /**
-     * Reset any modified values to their original values
-     *
-     * @return Core\Model\Iface\Base $this
-     * @throws \DomainException If mode is static
-     */
-    public function reset();
-
     /**
      * Save this object's data to appropriate data storage
      *
@@ -102,64 +69,22 @@ interface Base {
      *
      * @param  boolean                 $as_new If true, save this object's data as a new record
      * @return Core\Model\Iface\Base $this
-     * @throws \BadMethodCallException save() has no meaning in this context
      */
-    public function save($as_new = false);
-
+    public function save($force = false);
     /**
-     * Store a named value locally
+     * Set the unique identifier (primary key) for this record.
      *
-     * @param string $var The name of the value
-     * @param mixed $val        The value to store
-     * @return Core\Model\Iface\Base $this
-     * @throws \DomainException If mode is static
-     * @throws \DomainException If mode is fixed and $var is not a valid key
+     * @param  array $id      A hash of key => value pairs that satisfy the primary
+     *                        key definition
+     * @return RecordAbstract
+     * @throws Bdlm_Exception
      */
-    public function set($var, $val);
-
+    public function setId(array $id);
     /**
-     * Set or replace the entire internal data storage array
+     * Set the unique identifier (primary key) for this record.
      *
-     * @param array $data
-     * @return bool
-     * @throws \DomainException If mode is static
-     * @throws \DomainException If mode is fixed and an existing key is missing from $data
-     * @throws \DomainException If mode is fixed and any of the keys in $data is not a valid key
-     * @throws \DomainException If any value in $data is not a valid type
+     * @param  array $pk      The list of field names that define the primary key
+     * @return RecordAbstract
      */
-    public function setData($data);
-
-    /**
-     * Recursively convert any \Bdlm\Core\ObjectAbstract instances in the internal
-     * data storage array to an array and return the result
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function toArray($array = null);
-
-    /**
-     * Recursively convert the internal data storage array to a JSON string
-     *
-     * @return string JSON
-     * @throws \Exception
-     */
-    public function toJson();
-
-    /**
-     * Convert the data array to a text representation, default JSON
-     *
-     * @return string
-     * @throws \Exception
-     */
-    public function toString();
-
-    /**
-     * Recursively convert the internal data storage array to an XML compatible
-     * string
-     *
-     * @return string XML
-     * @throws \Exception
-     */
-    public function toXml($array = null);
+    public function setPk(array $pk);
 }

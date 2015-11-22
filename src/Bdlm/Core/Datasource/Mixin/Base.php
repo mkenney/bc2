@@ -88,6 +88,29 @@ trait Base {
         return ($this->has('dsn') ? (string) $this->get('dsn') : false);
     }
     /**
+     * Return the driver portion of the DSN string
+     * @return string
+     */
+    final public function getDsnDriver() {
+        return explode(':', $this->getDsn)[0];
+    }
+    /**
+     * Get a value from the DSN string
+     * @param  string $key  The name of the value to return
+     * @return false|string The named value, or false if it doesn't exist
+     */
+    final public function getDsnValue($key) {
+        $ret_val = false;
+        $dsn_values = explode(';', explode(':', $this->getDsn)[1]);
+        foreach ($dsn_values as $value) {
+            $value = explode('=');
+            if ($key === $value[0]) {
+                $ret_val = $value[1];
+            }
+        }
+        return $ret_val;
+    }
+    /**
      * Set the DSN string
      *
      * @param string $dsn The Data Source Name or similar connection string
@@ -120,6 +143,20 @@ trait Base {
      */
     final public function getType($type = null) {
         return ($this->has('type') ? (int) $this->get('type') : false);
+    }
+    /**
+     * Get the current datasource type's name
+     * @return string|false The current datasource type's name value, else false
+     */
+    final public function getTypeString($type = null) {
+        $ret_val = false;
+        switch ($this->getType()) {
+            case \Bdlm\Core\Datasource\Iface\Base::TYPE_PDO:   $ret_val = \Bdlm\Core\Datasource\Iface\Base::TYPE_PDO_NAME;   break;
+            case \Bdlm\Core\Datasource\Iface\Base::TYPE_OCI:   $ret_val = \Bdlm\Core\Datasource\Iface\Base::TYPE_OCI_NAME;   break;
+            case \Bdlm\Core\Datasource\Iface\Base::TYPE_ES:    $ret_val = \Bdlm\Core\Datasource\Iface\Base::TYPE_ES_NAME;    break;
+            case \Bdlm\Core\Datasource\Iface\Base::TYPE_HBASE: $ret_val = \Bdlm\Core\Datasource\Iface\Base::TYPE_HBASE_NAME; break;
+        }
+        return $ret_val;
     }
     /**
      * Set the datasource type value

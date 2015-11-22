@@ -25,6 +25,8 @@ class Pdo extends SchemaAbstract {
      * $this->getName()
      *
      * @return Schema\Iface\Base
+     * @todo   figure out how to get the current db name so I can pull this from
+     *         information_schema instead
      */
     public function load() {
         $query = $this->getDatasource()->prepareQuery(
@@ -38,6 +40,8 @@ SQL
             $data = array_change_key_case($data->getData(), CASE_LOWER);
             $this->_coreSet($data['field'], $data);
         }
+
+        return $this;
     }
 
 }

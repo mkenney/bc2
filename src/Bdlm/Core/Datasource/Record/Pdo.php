@@ -118,6 +118,7 @@ SQL
             $this->setData($data->toArray());
             $this->_clean_data = $this->getData();
             $this->isDirty(false);
+            $this->isLoaded(true);
         }
 
         $this->isLoading(false);

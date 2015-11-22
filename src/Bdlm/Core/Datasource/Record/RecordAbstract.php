@@ -55,7 +55,8 @@ use Bdlm\Core;
  * @version 2.0.0
  */
 abstract class RecordAbstract implements
-    Core\Object\Iface\Base
+    Iface\Base
+    , Core\Model\Iface\Base
     , \ArrayAccess
     , \Countable
     , \Iterator
@@ -66,41 +67,38 @@ abstract class RecordAbstract implements
      * Object base
      */
     use Core\Object\Mixin\Base {
-        Core\Object\Mixin\Base::get   as _coreGet;
-        Core\Object\Mixin\Base::set   as _coreSet;
-        Core\Object\Mixin\Base::reset as _coreReset;
+        Core\Object\Mixin\Base::get   as protected _coreGet;
+        Core\Object\Mixin\Base::set   as protected _coreSet;
+        Core\Object\Mixin\Base::reset as protected _coreReset;
     }
-
+    /**
+     * Model base
+     */
+    use Core\Model\Mixin\Base;
     /**
      * ArrayAccess
      */
     use Core\Object\Mixin\ArrayAccess;
-
     /**
      * Countable
      */
     use Core\Object\Mixin\Countable;
-
     /**
      * Iterator
      */
     use Core\Object\Mixin\Iterator;
-
     /**
      * Magic
      */
     use Core\Object\Mixin\Magic;
-
     /**
      * Serializable
      */
     use Core\Object\Mixin\Serializable;
-
     /**
      * Datasource boilerplate
      */
     use Datasource\Mixin\Boilerplate;
-
     /**
      * Schema boilerplate
      */
@@ -113,40 +111,10 @@ abstract class RecordAbstract implements
      */
     protected $_clean_data = [];
     /**
-     * Dirty flag
-     * @var bool $_dirty
-     */
-    protected $_dirty = false;
-    /**
      * Store error messages for later
      * @var array $_error_messages
      */
     protected $_error_messages = [];
-    /**
-     * Columns used for the primary key to select a SINGLE record
-     * This data is _always_ used to find and load a row.  For example, if loading a row by id
-     * this should contain the array array('id' => 1)
-     * @var array $_key_name
-     */
-    protected $_primary_key = ['id'];
-    /**
-     * Columns used for the primary key to select a SINGLE record
-     * This data is _always_ used to find and load a row.  For example, if loading a row by id
-     * this should contain the array array('id' => 1)
-     * @var array $_key_name
-     */
-    protected $_primary_id = [];
-    /**
-     * Loaded flag
-     * @var bool $_loaded
-     */
-    protected $_loaded = false;
-    /**
-     * Loading flag
-     * @var bool $_loading
-     */
-    protected $_loading = false;
-
     /**
      * Set the Schema and initialize
      *
@@ -161,6 +129,7 @@ abstract class RecordAbstract implements
         , array $primary_id = null
     ) {
         $this->setSchema($schema);
+        $this->setDatasource($schema->getDatasource());
         $this->setPk($primary_key);
         if (!is_null($primary_id)) {
             $this->setId($primary_id);
@@ -253,63 +222,6 @@ abstract class RecordAbstract implements
         return $ret_val;
     }
     /**
-     * Get the unique identifier (primary key) for this record.
-     *
-     * @return int|string The unique ID, or a string of all keys if it's multi-keyed.
-     * @throws Bdlm_Exception
-     */
-    public function getId() {
-        return $this->_primary_id;
-    }
-    /**
-     * Get the columns that make up the unique record identifier
-     *
-     * @return array          The list of field names that define the primary key
-     * @throws Bdlm_Exception
-     */
-    public function getPk() {
-        return $this->_primary_key;
-    }
-    /**
-     * [isDirty description]
-     * @param  bool $dirty
-     * @return bool
-     */
-    public function isDirty($dirty = null) {
-        if (!is_null($dirty)) {$this->_dirty = (bool) $dirty;}
-        return $this->_dirty;
-    }
-
-    /**
-     * [isDirty description]
-     * @param  bool $dirty
-     * @return bool
-     */
-    public function isLoaded($loaded = null) {
-        if (!is_null($loaded)) {$this->_loaded = (bool) $loaded;}
-        return $this->_loaded;
-    }
-
-    /**
-     * [isDirty description]
-     * @param  bool $dirty
-     * @return bool
-     */
-    public function isLoading($loading = null) {
-        if (!is_null($loading)) {$this->_loading = (bool) $loading;}
-        return $this->_loading;
-    }
-
-    /**
-     * Load the specified row from the database
-     *
-     * On success, set $this->_clean_data to a COPY of the raw data and set
-     * the dirty flag to false.
-     *
-     * @return RecordAbstract
-     */
-    public abstract function load();
-    /**
      * Clear data.
      * This will set all fields to an empty string, except certain "standard"
      * fields (id, status, etc.).
@@ -379,7 +291,6 @@ abstract class RecordAbstract implements
      * @return RecordAbstract
      */
     public abstract function save($force = true);
-
     /**
      * Set the value of a field.
      *
@@ -402,39 +313,6 @@ abstract class RecordAbstract implements
             $this->_coreSet($field, $value);
         }
 
-        return $this;
-    }
-    /**
-     * Set the unique identifier (primary key) for this record.
-     *
-     * @param  array $id      A hash of key => value pairs that satisfy the primary
-     *                        key definition
-     * @return RecordAbstract
-     * @throws Bdlm_Exception
-     */
-    public function setId(array $id) {
-        $this->_primary_id = [];
-        foreach ($this->getPk() as $field) {
-            if (!isset($id[$field])) {
-                $this->_primary_id = [];
-                throw new \RuntimeException("'{$field}' is a required field in the primary key");
-            }
-            $this->_primary_id[$field] = $id[$field];
-            $this->set($field, $id[$field]);
-        }
-        return $this;
-    }
-    /**
-     * Set the unique identifier (primary key) for this record.
-     *
-     * @param  array $pk      The list of field names that define the primary key
-     * @return RecordAbstract
-     */
-    public function setPk(array $pk) {
-        $this->_primary_key = [];
-        foreach ($pk as $field) {
-            $this->_primary_key[] = $this->getSchema()->getDatasource()->quote((string) $field, false);
-        }
         return $this;
     }
 }

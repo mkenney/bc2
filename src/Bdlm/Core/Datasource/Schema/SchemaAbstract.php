@@ -32,11 +32,11 @@ abstract class SchemaAbstract implements
      * Object base
      */
     use Core\Object\Mixin\Base {
-        Core\Object\Mixin\Base::get     as _coreGet;
-        Core\Object\Mixin\Base::getData as _coreGetData;
-        Core\Object\Mixin\Base::has     as _coreHas;
-        Core\Object\Mixin\Base::set     as _coreSet;
-        Core\Object\Mixin\Base::setData as _coreSetData;
+        Core\Object\Mixin\Base::get     as protected _coreGet;
+        Core\Object\Mixin\Base::getData as protected _coreGetData;
+        Core\Object\Mixin\Base::has     as protected _coreHas;
+        Core\Object\Mixin\Base::set     as protected _coreSet;
+        Core\Object\Mixin\Base::setData as protected _coreSetData;
     }
 
     /**
@@ -77,11 +77,12 @@ abstract class SchemaAbstract implements
      * @param  string                        $name       Optional, the name of this Schema in the Datasource
      * @return Schema\Iface\Base
      */
-    final public function __construct(Datasource\DatasourceAbstract $datasource, $name = '') {
+    final public function __construct(Datasource\DatasourceAbstract $datasource, $name = null) {
         $this->setDatasource($datasource);
         if (!is_null($name)) {
             $this->setName($name);
         }
+        return $this;
     }
 
     /**
@@ -174,7 +175,9 @@ abstract class SchemaAbstract implements
      * @param string $name
      */
     public function setName($name) {
-        $this->_name = str_replace('`', '', $this->getDatasource()->quote($name, false));
+        $name = trim(str_replace('`', '', $this->getDatasource()->quote($name, false)));
+        if (!$name) {throw new \RuntimeException("Invalid table name '{$name}'");}
+        $this->_name = $name;
         return $this;
     }
 }

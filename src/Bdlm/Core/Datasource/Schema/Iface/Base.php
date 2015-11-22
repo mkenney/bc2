@@ -12,7 +12,7 @@ namespace Bdlm\Core\Datasource\Schema\Iface;
 use \Bdlm\Core\Datasource;
 
 /**
- * Base config interface
+ * Base interface
  *
  * @author Michael Kenney <mkenney@webbedlam.com>
  * @package Bdlm

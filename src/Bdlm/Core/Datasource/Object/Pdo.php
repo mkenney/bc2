@@ -7,18 +7,17 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\App\User;
+namespace Bdlm\Core\Datasource\Object;
+use Bdlm\Core\Datasource;
+use Bdlm\Core;
 
 /**
- * User model
+ * Abstract interface for representing a record definition in a Datasource
+ *
+ * Requires implementing
  *
  * @author Michael Kenney <mkenney@webbedlam.com>
  * @package Bdlm
- * @version 0.0.1
+ * @version 2.0.0
  */
-class Model extends \Bdlm\Core\Model {
-    public function __construct(\Bdlm\Core\Datasource\Iface\Base $datasource = null) {
-        parent::__construct($datasource);
-
-    }
-}
+class Pdo extends ObjectAbstract {}
