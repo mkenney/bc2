@@ -21,63 +21,63 @@ interface Validation {
     /**
      * Array type error code
      */
-    const INVALID_TYPE_ARRAY     = 1;
+    const INVALID_TYPE_ARRAY      = 1;
     /**
      * Boolean type error code
      */
-    const INVALID_TYPE_BOOLEAN   = 2;
+    const INVALID_TYPE_BOOLEAN    = 2;
     /**
      * Date type error code
      */
-    const INVALID_TYPE_DATE      = 3;
+    const INVALID_TYPE_DATE       = 3;
     /**
      * Double / Float type error code
      */
-    const INVALID_TYPE_DOUBLE    = 4;
+    const INVALID_TYPE_DOUBLE     = 4;
     /**
      * File type error code
      */
-    const INVALID_TYPE_FILE      = 5;
+    const INVALID_TYPE_FILE       = 5;
     /**
      * Int / Integer / Long / Real type error code
      */
-    const INVALID_TYPE_INTEGER   = 7;
+    const INVALID_TYPE_INTEGER    = 7;
     /**
      * Multi-byte string type error code
      */
-    const INVALID_TYPE_MBSTRING  = 9;
+    const INVALID_TYPE_MBSTRING   = 9;
     /**
      * Object type error code
      */
-    const INVALID_TYPE_OBJECT    = 10;
+    const INVALID_TYPE_OBJECT     = 10;
     /**
      * Resource type error code
      */
-    const INVALID_TYPE_RESOURCE  = 12;
+    const INVALID_TYPE_RESOURCE   = 12;
     /**
      * Scalar type error code
      */
-    const INVALID_TYPE_SCALAR    = 13;
+    const INVALID_TYPE_SCALAR     = 13;
     /**
      * String type error code
      */
-    const INVALID_TYPE_STRING    = 14;
+    const INVALID_TYPE_STRING     = 14;
     /**
      * Class type error code
      */
-    const INVALID_TYPE_CLASS     = 15;
+    const INVALID_TYPE_CLASS      = 15;
     /**
      * Unknown type error code
      */
-    const INVALID_TYPE_UNKNOWN   = 16;
+    const INVALID_TYPE_UNKNOWN    = 16;
     /**
      * Invalid type definition specified
      */
-    const INVALID_TYPE_DEFINITION   = 17;
+    const INVALID_TYPE_DEFINITION = 17;
     /**
      * Bounded data (max() / min()) error code
      */
-    const INVALID_DATA_SIZE      = 18;
+    const INVALID_DATA_SIZE       = 18;
 
     /**
      * Find out if $max is valid

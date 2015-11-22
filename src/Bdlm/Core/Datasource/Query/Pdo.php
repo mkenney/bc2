@@ -20,7 +20,17 @@ namespace Bdlm\Core\Datasource\Query;
  */
 class Pdo extends QueryAbstract {
 
+    /**
+     * Storage for the PDO statement instance
+     * @var \PDOStatement
+     */
     protected $_pdo_statement = null;
+
+    /**
+     * Storage for the executed flag
+     *
+     * @var boolean
+     */
     protected $_is_executed = false;
 
     /**
@@ -45,6 +55,18 @@ class Pdo extends QueryAbstract {
         }
         $this->_is_executed = true;
         return $this->getStatement()->execute();
+    }
+
+    /**
+     * Get a PDO statement representation of the query string
+     *
+     * @return \PDOStatement
+     */
+    public function getStatement() {
+        if (!$this->_pdo_statement instanceof \PDOStatement) {
+            $this->_pdo_statement = $this->getDatasource()->getConnection()->prepare($this->getQuery());
+        }
+        return $this->_pdo_statement;
     }
 
     /**
@@ -122,7 +144,6 @@ SQL
         return $ret_val;
     }
 
-
     /**
      * Return a finalized string representation of the current query with any bound
      * variable values properly escaped and injected if available, otherwise output
@@ -147,13 +168,12 @@ SQL
         return $query;
     }
 
-    public function getStatement() {
-        if (!$this->_pdo_statement instanceof \PDOStatement) {
-            $this->_pdo_statement = $this->getDatasource()->getConnection()->prepare($this->getQuery());
-        }
-        return $this->_pdo_statement;
-    }
-
+    /**
+     * Set a PDO statement representation of the query string
+     *
+     * @param  \PDOStatement
+     * @return \Bdlm\Core\Datasource\Query\Iface\Base
+     */
     public function setStatement(\PDOStatement $statement) {
         $this->_pdo_statement = $statement;
         return $this;

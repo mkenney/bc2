@@ -42,19 +42,6 @@ trait Base {
     public abstract function connect();
 
     /**
-     * Prepare a query object
-     *
-     * @param  string $query  The query to execute
-     * @param  array  $data   Bind data
-     * @return Datasource\Pdo
-     */
-    public abstract function prepareQuery($query);
-
-////////////////////////////////////////////////////////////////////////
-// Boilerplate
-////////////////////////////////////////////////////////////////////////
-
-    /**
      * Get the current connection, else false
      *
      * @return mixed The current connection resource or instance, else false
@@ -62,23 +49,7 @@ trait Base {
     final public function getConnection() {
         return ($this->hasConnection() ? $this->get('connection') : false);
     }
-    /**
-     * Check to see if a connection exists
-     *
-     * @return bool
-     */
-    final public function hasConnection() {
-        return $this->has('connection');
-    }
-    /**
-     * Set the current connection
-     *
-     * @param mixed $connection The connection resource or instance to use
-     * @return Datasource $this
-     */
-    final public function setConnection($connection) {
-        return $this->set('connection', $connection);
-    }
+
     /**
      * Get the current DSN string
      *
@@ -87,6 +58,7 @@ trait Base {
     final public function getDsn() {
         return ($this->has('dsn') ? (string) $this->get('dsn') : false);
     }
+
     /**
      * Return the driver portion of the DSN string
      * @return string
@@ -94,6 +66,7 @@ trait Base {
     final public function getDsnDriver() {
         return explode(':', $this->getDsn)[0];
     }
+
     /**
      * Get a value from the DSN string
      * @param  string $key  The name of the value to return
@@ -110,15 +83,7 @@ trait Base {
         }
         return $ret_val;
     }
-    /**
-     * Set the DSN string
-     *
-     * @param string $dsn The Data Source Name or similar connection string
-     * @return Datasource $this
-     */
-    final public function setDsn($dsn) {
-        return $this->set('dsn', (string) $dsn);
-    }
+
     /**
      * Get the current password string
      *
@@ -127,15 +92,7 @@ trait Base {
     final public function getPassword() {
         return ($this->has('password') ? (string) $this->get('password') : false);
     }
-    /**
-     * Set the password string
-     *
-     * @param string $password The Data Source Name or similar connection string
-     * @return Datasource $this
-     */
-    final public function setPassword($password) {
-        return $this->set('password', (string) $password);
-    }
+
     /**
      * Get the current datasource type value
      *
@@ -144,6 +101,7 @@ trait Base {
     final public function getType($type = null) {
         return ($this->has('type') ? (int) $this->get('type') : false);
     }
+
     /**
      * Get the current datasource type's name
      * @return string|false The current datasource type's name value, else false
@@ -158,6 +116,55 @@ trait Base {
         }
         return $ret_val;
     }
+
+    /**
+     * Get the current username string
+     *
+     * @return int|false The current username string, else false
+     */
+    final public function getUsername() {
+        return ($this->has('username') ? $this->get('username') : false);
+    }
+
+    /**
+     * Check to see if a connection exists
+     *
+     * @return bool
+     */
+    final public function hasConnection() {
+        return $this->has('connection');
+    }
+
+    /**
+     * Set the current connection
+     *
+     * @param mixed $connection The connection resource or instance to use
+     * @return Datasource $this
+     */
+    final public function setConnection($connection) {
+        return $this->set('connection', $connection);
+    }
+
+    /**
+     * Set the DSN string
+     *
+     * @param string $dsn The Data Source Name or similar connection string
+     * @return Datasource $this
+     */
+    final public function setDsn($dsn) {
+        return $this->set('dsn', (string) $dsn);
+    }
+
+    /**
+     * Set the password string
+     *
+     * @param string $password The Data Source Name or similar connection string
+     * @return Datasource $this
+     */
+    final public function setPassword($password) {
+        return $this->set('password', (string) $password);
+    }
+
     /**
      * Set the datasource type value
      *
@@ -168,14 +175,7 @@ trait Base {
         if (!in_array($type, $this->getConstants())) {throw new \RuntimeException("Invalid type '{$type}'");}
         return $this->set('type', (int) $type);
     }
-    /**
-     * Get the current username string
-     *
-     * @return int|false The current username string, else false
-     */
-    final public function getUsername() {
-        return ($this->has('username') ? $this->get('username') : false);
-    }
+
     /**
      * Set the username string
      *
@@ -185,15 +185,4 @@ trait Base {
     final public function setUsername($username) {
         return $this->set('username', (string) $username);
     }
-
-    /**
-     * Quote a value for use in a query
-     * Should trigger a database connection using the current DSN if one doesn't
-     * exist yet.
-     * @param  mixed $value
-     * @param  bool  $autoquote If false, strip any quotes added by your Datasource's
-     *                          quote algorithm
-     * @return string
-     */
-    public abstract function quote($value, $autoquote = true);
 }

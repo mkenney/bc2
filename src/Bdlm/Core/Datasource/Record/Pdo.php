@@ -162,7 +162,6 @@ SQL
     SET {$sets}
     WHERE id = :id
     LIMIT 1
-
 SQL
                 );
 

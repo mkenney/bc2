@@ -65,6 +65,46 @@ trait Base {
     }
 
     /**
+     * Get the cookie HTTPOnly flag
+     * @return bool
+     */
+    final public function getHttpOnly() {
+        return (bool) $this->_httponly;
+    }
+
+    /**
+     * Get the object name property
+     * @return string|null
+     */
+    public function getName() {
+        return $this->_name;
+    }
+
+    /**
+     * Get the cookie path value
+     * @return string
+     */
+    final public function getPath() {
+        return (string) $this->_path;
+    }
+
+    /**
+     * Get the cookie secure flag
+     * @return bool
+     */
+    final public function getSecure() {
+        return (bool) $this->_secure;
+    }
+
+    /**
+     * Get the cookie timeout value
+     * @return  int The timeout time stamp in seconds
+     */
+    final public function getTimeout() {
+        return (int) $this->_timeout;
+    }
+
+    /**
      * Set the cookie domain
      * @param string $domain
      * @return Cookie\Iface\Base
@@ -75,14 +115,6 @@ trait Base {
     }
 
     /**
-     * Get the cookie HTTPOnly flag
-     * @return bool
-     */
-    final public function getHttpOnly() {
-        return (bool) $this->_httponly;
-    }
-
-    /**
      * Set the cookie HTTPOnly flag
      * @param bool $httponly
      * @return Cookie\Iface\Base
@@ -90,14 +122,6 @@ trait Base {
     final public function setHttpOnly($httponly) {
         $this->_httponly = (bool) $httponly;
         return $this;
-    }
-
-    /**
-     * Get the object name property
-     * @return string|null
-     */
-    public function getName() {
-        return $this->_name;
     }
 
     /**
@@ -115,14 +139,6 @@ trait Base {
     }
 
     /**
-     * Get the cookie path value
-     * @return string
-     */
-    final public function getPath() {
-        return (string) $this->_path;
-    }
-
-    /**
      * Set the cookie path value
      * @param  string $path
      * @return Bdlm\Core\Http\Cookie\Iface
@@ -133,14 +149,6 @@ trait Base {
     }
 
     /**
-     * Get the cookie secure flag
-     * @return bool
-     */
-    final public function getSecure() {
-        return (bool) $this->_secure;
-    }
-
-    /**
      * Set the cookie secure flag
      * @param  bool $secure
      * @return Bdlm\Core\Http\Cookie\Iface
@@ -148,14 +156,6 @@ trait Base {
     final public function setSecure($secure) {
         $this->_secure = (bool) $secure;
         return $this;
-    }
-
-    /**
-     * Get the cookie timeout value
-     * @return  int The timeout time stamp in seconds
-     */
-    final public function getTimeout() {
-        return (int) $this->_timeout;
     }
 
     /**

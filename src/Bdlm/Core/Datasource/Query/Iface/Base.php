@@ -7,75 +7,28 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\Core\Datasource\Query;
+namespace Bdlm\Core\Datasource\Query\Iface;
+use \Bdlm\Core\Datasource;
 
 /**
- * Datasource query abstraction
+ * Base interface
  *
  * @author Michael Kenney <mkenney@webbedlam.com>
  * @package Bdlm
  * @version 0.0.1
  */
-abstract class QueryAbstract implements
-    Iface\Base
-    , \ArrayAccess
-    , \Countable
-    , \Iterator
-    , \Serializable
-{
-
-    /**
-     * Base object
-     */
-    use \Bdlm\Core\Object\Mixin\Base;
-
-    /**
-     * ArrayAccess object
-     */
-    use \Bdlm\Core\Object\Mixin\ArrayAccess;
-
-    /**
-     * Countable object
-     */
-    use \Bdlm\Core\Object\Mixin\Countable;
-
-    /**
-     * Iterator object
-     */
-    use \Bdlm\Core\Object\Mixin\Iterator;
-
-    /**
-     * Base object
-     */
-    use \Bdlm\Core\Object\Mixin\Serializable;
-
-    /**
-     * Datasource boilerplate
-     */
-    use \Bdlm\Core\Datasource\Mixin\Boilerplate;
-
-    /**
-     * The current query string
-     * @var string
-     */
-    protected $_query = '';
-
-    /**
-     * [$_result description]
-     * @var boolean
-     */
-    protected $_result = false;
+interface Base extends \Bdlm\Core\Object\Iface\Base {
 
     /**
      * @param \Bdlm\Core\Datasource\Iface\Base $datasource A datasource to query against
      * @param string                              $query      A query string to execute
      * @param array                               $data       Any data to bind to the query
      */
-    public function __construct(\Bdlm\Core\Datasource\Iface\Base $datasource, $query = '', $data = []) {
-        $this->setDatasource($datasource);
-        $this->setQuery($query);
-        $this->setData($data);
-    }
+    public function __construct(
+        \Bdlm\Core\Datasource\Iface\Base $datasource
+        , $query = ''
+        , $data = []
+    );
 
     /**
      * Bind values to query variables
@@ -90,32 +43,48 @@ abstract class QueryAbstract implements
      * @param  $val                         The value to bind in the statement
      * @return QueryAbstract                Alwasy return the current instance
      */
-    final public function bind($var, $val = '') {
-        if (is_array($var) || $var instanceof \Bdlm\Core\ObjectAbstract) {
-            foreach ($var as $k => $v) {
-                $this->set($k, $v);
-            }
-        } else {
-            $this->set($var, $val);
-        }
-        return $this;
-    }
+    public function bind($var, $val = '');
+
+    /**
+     * Commit changes, if any
+     *
+     * @return boolean
+     */
+    public function commit();
+
+    /**
+     * Execute the current statement
+     * @param int $mode
+     * @return boolean
+     * @todo Implement remaining execute() logic (cursors...)
+     */
+    public function execute($bind_data = null);
 
     /**
      * Get the current query string
      * @return string
      */
-    public function getQuery() {
-        return (string) $this->_query;
-    }
+    public function getQuery();
 
     /**
      * Get the current result
      * @return string
      */
-    public function getResult() {
-        return $this->_result;
-    }
+    public function getResult();
+
+    /**
+     * MySQL-like limit functionality for pagination.
+     *
+     * Cannot be called before a query has been defined, if a defined query is
+     * not a SELECT statement or after a query has been executed.  Limits data
+     * using the method found here:
+     * http://www.oracle.com/technetwork/issue-archive/2006/06-sep/o56asktom-086197.html
+     *
+     * @param int $start
+     * @param int $rows
+     * @return void
+     */
+    public function limit($start, $rows);
 
     /**
      * Fetch the next row of data as an object
@@ -127,9 +96,7 @@ abstract class QueryAbstract implements
      *                              Be sure to include a descriptive exception
      *                              message.
      */
-    public function next($mode = null) {
-        throw new \RuntimeException('Method not implemented');
-    }
+    public function next($mode = null);
 
     /**
      * Reset the data source pointer to the beginning of the data set. Re-execute
@@ -137,9 +104,13 @@ abstract class QueryAbstract implements
      *
      * @return bool
      */
-    public function reset() {
-        throw new \RuntimeException('Method not implemented');
-    }
+    public function reset();
+
+    /**
+     * Rollback changes, if any
+     * @return boolean
+     */
+    public function rollback();
 
     /**
      * Return a finalized string representation of the current query with any bound
@@ -148,29 +119,18 @@ abstract class QueryAbstract implements
      *
      * @return string
      */
-    public function toString() {
-        throw new \RuntimeException('Method not implemented');
-    }
+    public function toString();
 
     /**
      * Set the query string to execute against the datasource
      * @param string $query
      */
-    public function setQuery($query) {
-        $this->_query = (string) $query;
-        return $this;
-    }
+    public function setQuery($query);
 
     /**
      * Set the current result
      * @param  false|\Bdlm\Core\Object\Iface\Base $result
      * @return \Bdlm\Core\Datasource\Query\Iface\Base
      */
-    public function setResult($result) {
-        if (false !== $result && !$result instanceof \Bdlm\Core\Object\Iface\Base) {
-            throw new \RuntimeException('Invalid result set given');
-        }
-        $this->_result = $result;
-        return $this;
-    }
+    public function setResult($result);
 }

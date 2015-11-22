@@ -43,5 +43,4 @@ SQL
 
         return $this;
     }
-
 }

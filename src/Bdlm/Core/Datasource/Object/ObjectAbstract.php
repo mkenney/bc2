@@ -20,6 +20,7 @@ use Bdlm\Core;
 abstract class ObjectAbstract implements
     Core\Datasource\Object\Iface\Base
     , Core\Model\Iface\Base
+    , Core\Object\Iface\Magic
     , \ArrayAccess
     , \Countable
     , \Iterator
@@ -36,38 +37,47 @@ abstract class ObjectAbstract implements
         Core\Object\Mixin\Base::set     as protected _coreSet;
         Core\Object\Mixin\Base::setData as protected _coreSetData;
     }
+
     /**
      * Data object base
      */
     use Core\Datasource\Object\Mixin\Base;
+
     /**
      * Object data model
      */
     use Core\Model\Mixin\Base;
+
     /**
      * ArrayAccess
      */
     use Core\Object\Mixin\ArrayAccess;
+
     /**
      * Countable
      */
     use Core\Object\Mixin\Countable;
+
     /**
      * Iterator
      */
     use Core\Object\Mixin\Iterator;
+
     /**
      * Magic
      */
     use Core\Object\Mixin\Magic;
+
     /**
      * Serializable
      */
     use Core\Object\Mixin\Serializable;
+
     /**
      * Datasource boilerplate
      */
     use Core\Datasource\Mixin\Boilerplate;
+
     /**
      * Set the Datasource and initialize
      *

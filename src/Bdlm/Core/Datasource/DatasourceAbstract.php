@@ -47,18 +47,22 @@ abstract class DatasourceAbstract implements
      * Object\Iface\Magic implementation
      */
     use Core\Object\Mixin\Magic;
+
     /**
      * \ArrayAccess implementation
      */
     use Core\Object\Mixin\ArrayAccess;
+
     /**
      * \Countable implementation
      */
     use Core\Object\Mixin\Countable;
+
     /**
      * \Iterator implementation
      */
     use Core\Object\Mixin\Iterator;
+
     /**
      * \Serializable implementation
      */

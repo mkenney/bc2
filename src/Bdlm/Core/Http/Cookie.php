@@ -23,12 +23,21 @@ use Bdlm\Core\Object;
 class Cookie implements
     Object\Iface\Base
     , Cookie\Iface\Base
+    , Core\Object\Iface\Magic
+    , \ArrayAccess
+    , \Countable
+    , \Iterator
+    , \Serializable
 {
 
     /**
      * Object\Iface\Base implementation
      */
-    use Object\Mixin\Base;
+    use Object\Mixin\Base {
+        Object\Mixin\Base::delete as protected _coreDelete;
+        Object\Mixin\Base::reset  as protected _coreReset;
+        Object\Mixin\Base::set    as protected _coreSet;
+    }
 
     /**
      * Http\Cookie\Iface\Base implementation
@@ -37,6 +46,31 @@ class Cookie implements
         Cookie\Mixin\Base::getName insteadof Object\Mixin\Base;
         Cookie\Mixin\Base::setName insteadof Object\Mixin\Base;
     }
+
+    /**
+     * ArrayAccess
+     */
+    use Core\Object\Mixin\ArrayAccess;
+
+    /**
+     * Countable
+     */
+    use Core\Object\Mixin\Countable;
+
+    /**
+     * Iterator
+     */
+    use Core\Object\Mixin\Iterator;
+
+    /**
+     * Magic
+     */
+    use Core\Object\Mixin\Magic;
+
+    /**
+     * Serializable
+     */
+    use Core\Object\Mixin\Serializable;
 
     /**
      * Setup all the defaults and initialize
@@ -100,7 +134,7 @@ class Cookie implements
         }
 
         // Update local value
-        return parent::delete($var);
+        return $this->_coreDelete($var);
     }
 
     /**
@@ -116,7 +150,7 @@ class Cookie implements
         foreach ($this->getData() as $var) {
             $this->delete($var);
         }
-        return parent::reset();
+        return $this->_coreReset();
     }
 
     /**
@@ -166,7 +200,7 @@ class Cookie implements
         ) {
 
             // Update local values
-            $this->_data[$var] = $val;
+            $this->_coreSet($var, $val);
             $ret_val = $this;
         }
         return $ret_val;

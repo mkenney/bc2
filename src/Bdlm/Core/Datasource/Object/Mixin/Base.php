@@ -18,16 +18,19 @@ use \Bdlm\Core\Datasource;
  * @version 0.0.1
  */
 trait Base {
+
     /**
      * The name of this objects primary schema
      * @var string
      */
     protected $_primary_schema = null;
+
     /**
      * The list of related schemas that make up this object
      * @var array A hash of schema_name => Datasource\Schema\Iface\Base instances
      */
     protected $_schemas = null;
+
     /**
      * Add a schema instance to the stack
      *
@@ -39,6 +42,7 @@ trait Base {
         $this->_schemas->set($schema->getName(), $schema);
         return $this;
     }
+
     /**
      * Get the name of the primary schema for this object
      * @return string
@@ -46,6 +50,7 @@ trait Base {
     public function getPrimarySchemaName() {
         return $this->_primary_schema;
     }
+
     /**
      * Get a schema instance by name
      * Return false if a corresponding instance doesn't exist
@@ -59,8 +64,11 @@ trait Base {
         }
         return $ret_val;
     }
+
     /**
-     * [load description]
+     * Initialize Record instances for all records related to the primary record in
+     * the primary schema
+     *
      * @param  boolean $force [description]
      * @return [type]         [description]
      */
@@ -137,6 +145,7 @@ SQL
         }
         return $this;
     }
+
     /**
      * Save this object's data to appropriate data storage
      *
@@ -157,6 +166,7 @@ SQL
         }
         return $this;
     }
+
     /**
      * Set the name of the primary schema for this object
      * @param string $schema_name

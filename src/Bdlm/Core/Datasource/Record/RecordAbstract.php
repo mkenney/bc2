@@ -62,7 +62,6 @@ abstract class RecordAbstract implements
     , \Iterator
     , \Serializable
 {
-
     /**
      * Object base
      */
@@ -71,34 +70,42 @@ abstract class RecordAbstract implements
         Core\Object\Mixin\Base::set   as protected _coreSet;
         Core\Object\Mixin\Base::reset as protected _coreReset;
     }
+
     /**
      * Model base
      */
     use Core\Model\Mixin\Base;
+
     /**
      * ArrayAccess
      */
     use Core\Object\Mixin\ArrayAccess;
+
     /**
      * Countable
      */
     use Core\Object\Mixin\Countable;
+
     /**
      * Iterator
      */
     use Core\Object\Mixin\Iterator;
+
     /**
      * Magic
      */
     use Core\Object\Mixin\Magic;
+
     /**
      * Serializable
      */
     use Core\Object\Mixin\Serializable;
+
     /**
      * Datasource boilerplate
      */
     use Datasource\Mixin\Boilerplate;
+
     /**
      * Schema boilerplate
      */
@@ -110,11 +117,13 @@ abstract class RecordAbstract implements
      * @var array $_clean_data
      */
     protected $_clean_data = [];
+
     /**
      * Store error messages for later
      * @var array $_error_messages
      */
     protected $_error_messages = [];
+
     /**
      * Set the Schema and initialize
      *
@@ -135,15 +144,18 @@ abstract class RecordAbstract implements
             $this->setId($primary_id);
         }
     }
+
     /**
-     * Mark this record as deleted in the current Datasource
+     * Add an error message to the stack
      *
-     * If $real_delete is true completely remove the record from the Datasource
-     *
-     * @param boolean $real_delete
+     * @param string $message
      * @return RecordAbstract
      */
-    public abstract function deleteRecord($real_delete = false);
+    public function addError($message) {
+        $this->_error_messages[] = (string) $message;
+        return $this;
+    }
+
     /**
      * Describe this row by returning a list of the columns as a comma-delimited string.
      * Useful for inserting into queries.
@@ -160,16 +172,7 @@ abstract class RecordAbstract implements
     public function describe() {
         return $this->getSchema()->describe();
     }
-    /**
-     * Add an error message to the stack
-     *
-     * @param string $message
-     * @return RecordAbstract
-     */
-    public function addError($message) {
-        $this->_error_messages[] = (string) $message;
-        return $this;
-    }
+
     /**
      * Get/set error messages.
      * @return array All messages
@@ -177,15 +180,7 @@ abstract class RecordAbstract implements
     public function getErrors() {
         return $this->_error_messages;
     }
-    /**
-     * Get/set error messages.
-     * @param array $messages
-     * @return RecordAbstract
-     */
-    public function setErrors(array $messages) {
-        $this->_error_messages = $messages;
-        return $this;
-    }
+
     /**
      * Get the field names for this table.
      * @return array An array containing the field names.
@@ -193,6 +188,7 @@ abstract class RecordAbstract implements
     public function fields() {
         return $this->arrayKeys();
     }
+
     /**
      * Get the value of a specific field
      *
@@ -206,6 +202,7 @@ abstract class RecordAbstract implements
         $ret_val = $this->_coreGet($field);
         return $ret_val;
     }
+
     /**
      * Clear data.
      * This will set all fields to an empty string, except certain "standard"
@@ -226,6 +223,7 @@ abstract class RecordAbstract implements
 
         return $this;
     }
+
     /**
      * Reset data for a specific field name
      *
@@ -262,20 +260,7 @@ abstract class RecordAbstract implements
         $this->isDirty($dirty);
         return $this;
     }
-    /**
-     * Save this record to the database.
-     * If it's an existing record (already loaded) then saving should overwrite
-     * the data. If it's new, saving should create a new record and update the
-     * key field with the new unique identifier.
-     *
-     * Note that the data will NOT be saved if it has not been changed; that is,
-     * if the dirty flag is still 'false'.
-     *
-     * @param  bool $force    If true, force an update process even if the dirty
-     *                        flag is false
-     * @return RecordAbstract
-     */
-    public abstract function save($force = true);
+
     /**
      * Set the value of a field.
      *
@@ -298,6 +283,16 @@ abstract class RecordAbstract implements
             $this->_coreSet($field, $value);
         }
 
+        return $this;
+    }
+
+    /**
+     * Get/set error messages.
+     * @param array $messages
+     * @return RecordAbstract
+     */
+    public function setErrors(array $messages) {
+        $this->_error_messages = $messages;
         return $this;
     }
 }

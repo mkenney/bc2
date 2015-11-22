@@ -8,7 +8,6 @@
  */
 
 namespace Bdlm\Core\Object\Mixin;
-
 use \Bdlm\Core;
 
 /**
@@ -565,14 +564,13 @@ trait Base {
         if ($array instanceof Object\Iface\Base) {
             $array = $array->toArray();
         } elseif (!is_array($array)) {
-            $array = (array) $this->getData();
+            $array = $this->getData();
         }
         foreach ($array as $k => $v) {
-            if (
-                is_array($v)
-                || $v instanceof Object\Iface\Base
-            ) {
+            if (is_array($v)) {
                 $ret_val[$k] = $this->toArray($v);
+            } elseif ($v instanceof Core\Object\Iface\Base) {
+                $ret_val[$k] = $v->toArray();
             } else {
                 $ret_val[$k] = $v;
             }

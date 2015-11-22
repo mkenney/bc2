@@ -25,7 +25,6 @@ abstract class SchemaAbstract implements
     , \Iterator
     , \Serializable
 {
-
     /**
      * Object base
      */
@@ -66,7 +65,6 @@ abstract class SchemaAbstract implements
      * Datasource boilerplate
      */
     use Core\Datasource\Mixin\Boilerplate;
-
 
     /**
      * Set the Datasource and initialize
@@ -134,22 +132,6 @@ abstract class SchemaAbstract implements
     }
 
     /**
-     * Load schema data for a resource in the Datasource identified by
-     * $this->getName(). Schema should be stored using \Core\Object\Iface\Base
-     * methods, generally as an array of:
-     *     [
-     *       "field name" => [
-     *         "metadata property 1" => "value or description"
-     *         , "metadata property 2" => "value or description"
-     *         ...
-     *       ]
-     *     ]
-     *
-     * @return Schema\Iface\Base
-     */
-    public abstract function load();
-
-    /**
      * Don't allow schemas to be modified by default
      * Core\Object::set is mapped to _coreSet
      *
@@ -158,6 +140,7 @@ abstract class SchemaAbstract implements
     public function set($var, $val) {
         throw new \BadMethodCallException("A schema cannot be modified");
     }
+
     /**
      * Don't allow schemas to be modified by default
      * Core\Object::setData is mapped to _coreSetData

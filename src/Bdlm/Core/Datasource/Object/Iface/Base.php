@@ -18,6 +18,7 @@ use \Bdlm\Core\Datasource;
  * @version 0.0.1
  */
 interface Base extends \Bdlm\Core\Object\Iface\Base {
+
     /**
      * Add a schema instance to the stack
      *
@@ -25,11 +26,13 @@ interface Base extends \Bdlm\Core\Object\Iface\Base {
      * @return Datasource\Object\Iface\Base
      */
     public function addSchema(Datasource\Schema\Iface\Base $schema);
+
     /**
      * Get the name of the primary schema for this object
      * @return string
      */
     public function getPrimarySchemaName();
+
     /**
      * Get a schema instance by name
      * Return false if a corresponding instance doesn't exist
@@ -37,6 +40,7 @@ interface Base extends \Bdlm\Core\Object\Iface\Base {
      * @return false|Datasource\Schema\Iface\Base
      */
     public function getSchema($schema_name);
+
     /**
      * Set the name of the primary schema for this object
      * @param string $schema_name

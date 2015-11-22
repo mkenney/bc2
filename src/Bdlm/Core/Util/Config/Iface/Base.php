@@ -39,8 +39,16 @@ interface Base {
      */
     public function load($file);
 
+    /**
+     * Get the path to this configuration file
+     * @return string
+     */
     public function getPath();
 
+    /**
+     * Set the path to this configuration file
+     * @param \Bdlm\Core\Util\Config\Iface\Base
+     */
     public function setPath($path);
 
     /**
@@ -51,5 +59,4 @@ interface Base {
      * @return \Bdlm\Core\Object     $this
      */
     public function set($var, $val);
-
 }
