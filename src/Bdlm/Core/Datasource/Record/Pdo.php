@@ -42,7 +42,8 @@ class Pdo extends RecordAbstract {
      */
     public function deleteRecord($real_delete = false) {
         if ($this->getSchema()->has('status') && !$real_delete) {
-            $query = $this->getSchema()->getDatasource()->prepareQuery(<<<SQL
+            $query = $this->getSchema()->getDatasource()->prepareQuery(
+<<<SQL
     UPDATE `{$this->getSchema()->getName()}`
     SET `status` = :status
 SQL
@@ -50,7 +51,8 @@ SQL
             $query->bind('status', 'deleted');
 
         } else {
-            $query = $this->getSchema()->getDatasource()->prepareQuery(<<<SQL
+            $query = $this->getSchema()->getDatasource()->prepareQuery(
+<<<SQL
     DELETE FROM `{$this->getSchema()->getName()}`
     WHERE `id` = :id
 SQL
@@ -61,12 +63,9 @@ SQL
     }
 
     /**
-     * Create an dump file which can be loaded into a new Datasource
+     * Create a data string which can be loaded into a new PDO Datasource
      *
-     * Formatting for your Datasource implementation (SQL, ElasticeSearch, etc.)
-     * is dependent on the Datasource type
-     *
-     * @return string A Datasource insert statement or data blob
+     * @return string A Datasource insert statement
      */
     public function dump() {
         $fields = '';
@@ -86,43 +85,47 @@ SQL
      * @return Datasource\Record\RecordAbstract
      * @throws \RuntimeException An Id hash must be set before data can be loaded
      */
-    public function load() {
+    public function load($force = false) {
         if (!count($this->getId())) {throw new \RuntimeException("An Id hash must be set before data can be loaded");}
 
-        $this->isLoading(true);
-        $this->isLoaded(false);
+        if (!$this->isLoading()) {
+            if (!$this->isLoaded() || $force) {
+                $this->isLoading(true);
+                $this->isLoaded(false);
 
-        $fields = '`'.implode('`,`', $this->getSchema()->arrayKeys()).'`';
+                $fields = '`'.implode('`,`', $this->getSchema()->arrayKeys()).'`';
 
-        $where = [];
-        foreach ($this->getPk() as $field) {
-            $where[] = "`{$field}` = :{$field}";
-        }
-        $where = (count($where) ? implode(' AND ', $where) : '');
+                $where = [];
+                foreach ($this->getPk() as $field) {
+                    $where[] = "`{$field}` = :{$field}";
+                }
+                $where = (count($where) ? implode(' AND ', $where) : '');
 
-        $query = $this->getSchema()->getDatasource()->prepareQuery(<<<SQL
+                $query = $this->getSchema()->getDatasource()->prepareQuery(
+<<<SQL
     SELECT {$fields}
     FROM `{$this->getSchema()->getName()}`
     WHERE
         {$where}
 SQL
-        );
-        foreach ($this->getPk() as $field) {
-            $query->bind($field, $this->getId()[$field]);
+                );
+                foreach ($this->getPk() as $field) {
+                    $query->bind($field, $this->getId()[$field]);
+                }
+
+                $query->execute();
+
+                $data = $query->next();
+                if (false !== $data) {
+                    $this->setData($data->toArray());
+                    $this->_clean_data = $this->getData();
+                    $this->isDirty(false);
+                    $this->isLoaded(true);
+                }
+
+                $this->isLoading(false);
+            }
         }
-
-        $query->execute();
-
-        $data = $query->next();
-        if (false !== $data) {
-            $this->setData($data->toArray());
-            $this->_clean_data = $this->getData();
-            $this->isDirty(false);
-            $this->isLoaded(true);
-        }
-
-        $this->isLoading(false);
-
         return $this;
     }
 
@@ -174,8 +177,7 @@ SQL
         {$fields}
     ) VALUES (
         {$values}
-    );
-
+    )
 SQL
                 );
             }

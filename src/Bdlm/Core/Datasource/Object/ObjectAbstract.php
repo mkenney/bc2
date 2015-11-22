@@ -11,9 +11,7 @@ namespace Bdlm\Core\Datasource\Object;
 use Bdlm\Core;
 
 /**
- * Abstract interface for representing a record definition in a Datasource
- *
- * Requires implementing
+ * Abstract interface for representing a collection of related Datasource Records
  *
  * @author Michael Kenney <mkenney@webbedlam.com>
  * @package Bdlm
@@ -21,7 +19,7 @@ use Bdlm\Core;
  */
 abstract class ObjectAbstract implements
     Core\Datasource\Object\Iface\Base
-    , \Bdlm\Core\Model\Iface\Base
+    , Core\Model\Iface\Base
     , \ArrayAccess
     , \Countable
     , \Iterator
@@ -73,9 +71,11 @@ abstract class ObjectAbstract implements
     /**
      * Set the Datasource and initialize
      *
-     * @param  Datasource\DatasourceAbstract $datasource Object representing the Datasource
-     * @param  string                        $name       Optional, the name of this Schema in the Datasource
-     * @return Schema\Iface\Base
+     * @param  Datasource\DatasourceAbstract $datasource Object representing the
+     *                                                   Datasource
+     * @param  string                        $name       Optional, the name of
+     *                                                   this Schema in the Datasource
+     * @return Core\Datasource\Object\Iface\Base
      */
     public function __construct(
         Core\Datasource\DatasourceAbstract $datasource
@@ -93,5 +93,6 @@ abstract class ObjectAbstract implements
         if (!is_null($primary_id)) {
             $this->setId($primary_id);
         }
+        return $this;
     }
 }

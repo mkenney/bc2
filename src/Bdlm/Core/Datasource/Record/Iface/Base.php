@@ -47,7 +47,7 @@ interface Base extends \Bdlm\Core\Object\Iface\Base {
      */
     public function describe();
     /**
-     * Create an dump file which can be loaded into a new Datasource
+     * Create a data string which can be loaded into a new Datasource
      *
      * Formatting for your Datasource implementation (SQL, ElasticeSearch, etc.)
      * is dependent on the Datasource type

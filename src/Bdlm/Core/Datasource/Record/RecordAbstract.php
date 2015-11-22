@@ -15,7 +15,7 @@ use Bdlm\Core;
 /**
  * Abstract interface for representing a single record from a Datasource
  *
- * Requires implementing
+ * Requires implementing:
  *     copy()
  *         Copy the represented record to a new row/blob/whatever in your
  *         Datasource
@@ -136,12 +136,6 @@ abstract class RecordAbstract implements
         }
     }
     /**
-     * Copy this record to a new record
-     *
-     * @return RecordAbstract
-     */
-    public abstract function copy();
-    /**
      * Mark this record as deleted in the current Datasource
      *
      * If $real_delete is true completely remove the record from the Datasource
@@ -166,15 +160,6 @@ abstract class RecordAbstract implements
     public function describe() {
         return $this->getSchema()->describe();
     }
-    /**
-     * Create an dump file which can be loaded into a new Datasource
-     *
-     * Formatting for your Datasource implementation (SQL, ElasticeSearch, etc.)
-     * is dependent on the Datasource type
-     *
-     * @return string A Datasource insert statement or data blob
-     */
-    public abstract function dump();
     /**
      * Add an error message to the stack
      *

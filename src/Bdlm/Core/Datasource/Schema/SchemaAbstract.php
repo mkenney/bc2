@@ -14,8 +14,6 @@ use Bdlm\Core;
 /**
  * Abstract interface for representing a record definition in a Datasource
  *
- * Requires implementing
- *
  * @author Michael Kenney <mkenney@webbedlam.com>
  * @package Bdlm
  * @version 2.0.0

@@ -67,71 +67,73 @@ trait Base {
     public function load($force = false) {
         if (!count($this->getId())) {throw new \RuntimeException("An Id hash must be set before data can be loaded");}
 
-        if (!$this->isLoaded() || $force) {
-            $this->isLoading(true);
+        if (!$this->isLoading()) {
+            if (!$this->isLoaded() || $force) {
+                $this->isLoading(true);
 
-            $this->reset();
+                $this->reset();
 
-            foreach ($this->_schemas as $schema_name => $schema) {
-                $row_class = "\\Bdlm\\Core\\Datasource\\Record\\{$schema->getDatasource()->getTypeString()}";
+                foreach ($this->_schemas as $schema_name => $schema) {
+                    $row_class = "\\Bdlm\\Core\\Datasource\\Record\\{$schema->getDatasource()->getTypeString()}";
 
-                // The primary schema can only have 1 row that matches the Id
-                if ($schema_name === $this->getPrimarySchemaName()) {
-                    $row = new $row_class(
-                        $schema
-                        , $this->getPk()
-                        , $this->getId()
-                    );
-                    $row->load();
-                    $this->set($schema_name, $row);
+                    // The primary schema can only have 1 row that matches the Id
+                    if ($schema_name === $this->getPrimarySchemaName()) {
+                        $row = new $row_class(
+                            $schema
+                            , $this->getPk()
+                            , $this->getId()
+                        );
+                        $row->load();
+                        $this->set($schema_name, $row);
 
-                // Assume the rest of the schemas have a 1-to-many relationship to the
-                // primary schema, and that there is an 'id' column that is the unique
-                // identifier for each row. Assume the correct selector would be the
-                // primary schema's name prefixed to each primary key column:
-                //     If the primary key is 'id' and the primary table is 'user',
-                //     then assume that the selector key in all related tables is
-                //     'user_id'
-                //
-                } else {
+                    // Assume the rest of the schemas have a 1-to-many relationship to the
+                    // primary schema, and that there is an 'id' column that is the unique
+                    // identifier for each row. Assume the correct selector would be the
+                    // primary schema's name prefixed to each primary key column:
+                    //     If the primary key is 'id' and the primary table is 'user',
+                    //     then assume that the selector key in all related tables is
+                    //     'user_id'
+                    //
+                    } else {
 
-                    $keys = $this->getPk();
-                    foreach ($keys as $k => $v) {
-                        $keys[$k] = "{$this->getPrimarySchemaName()}_{$v}";
-                    }
+                        $keys = $this->getPk();
+                        foreach ($keys as $k => $v) {
+                            $keys[$k] = "{$this->getPrimarySchemaName()}_{$v}";
+                        }
 
-                    $where = [];
-                    foreach ($keys as $field) {
-                        $where[] = "`{$field}` = :{$field}";
-                    }
-                    $where = (count($where) ? implode(' AND ', $where) : '');
+                        $where = [];
+                        foreach ($keys as $field) {
+                            $where[] = "`{$field}` = :{$field}";
+                        }
+                        $where = (count($where) ? implode(' AND ', $where) : '');
 
-                    $query = $this->getDatasource()->prepareQuery(
+                        $query = $this->getDatasource()->prepareQuery(
 <<<SQL
     SELECT `id` FROM `{$schema->getName()}` WHERE {$where}
 SQL
-                    );
-                    foreach ($this->getId() as $field => $value) {
-                        $query->bind("{$this->getPrimarySchemaName()}_{$field}", $value);
-                    }
-                    $query->execute();
-
-                    $this->set($schema_name, []);
-                    while ($data = $query->next()) {
-                        $row = new $row_class(
-                            $schema
-                            , ['id']
-                            , ['id' => $data['id']]
                         );
-                        $row->load();
-                        $this->add($schema_name, $row);
+                        foreach ($this->getId() as $field => $value) {
+                            $query->bind("{$this->getPrimarySchemaName()}_{$field}", $value);
+                        }
+                        $query->execute();
+
+                        $this->set($schema_name, []);
+                        while ($data = $query->next()) {
+                            $row = new $row_class(
+                                $schema
+                                , ['id']
+                                , ['id' => $data['id']]
+                            );
+                            $row->load();
+                            $this->add($schema_name, $row);
+                        }
                     }
                 }
-            }
 
-            $this->isDirty(false);
-            $this->isLoaded(true);
-            $this->isLoading(false);
+                $this->isDirty(false);
+                $this->isLoaded(true);
+                $this->isLoading(false);
+            }
         }
         return $this;
     }
