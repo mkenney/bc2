@@ -20,32 +20,32 @@ use \Bdlm\Core;
  */
 trait Boilerplate {
 
-	/**
-	 * @var Core\Model\Iface\Base
-	 */
-	protected $_model = null;
+    /**
+     * @var Core\Model\Iface\Base
+     */
+    protected $_model = null;
 
-	/**
-	 * Get the current model instance
-	 *
-	 * @return Core\Model\Iface\Base|false The current model instance, else false
-	 */
-	public function getModel() {
-		$ret_val = false;
-		if ($this->_model instanceof Core\Model\Iface\Base) {
-			$ret_val = $this->_model;
-		}
-		return $ret_val;
-	}
+    /**
+     * Get the current model instance
+     *
+     * @return Core\Model\Iface\Base|false The current model instance, else false
+     */
+    public function getModel() {
+        $ret_val = false;
+        if ($this->_model instanceof Core\Model\Iface\Base) {
+            $ret_val = $this->_model;
+        }
+        return $ret_val;
+    }
 
-	/**
-	 * Set a model instance for this object to reference
-	 *
-	 * @param  Core\Model\Iface\Base  $model A model instance to reference
-	 * @return Core\Object\Iface\Base The current instance
-	 */
-	public function setModel(Core\Model\Iface\Base $model) {
-		$this->_model = $model;
-		return $this;
-	}
+    /**
+     * Set a model instance for this object to reference
+     *
+     * @param  Core\Model\Iface\Base  $model A model instance to reference
+     * @return Core\Object\Iface\Base The current instance
+     */
+    public function setModel(Core\Model\Iface\Base $model) {
+        $this->_model = $model;
+        return $this;
+    }
 }

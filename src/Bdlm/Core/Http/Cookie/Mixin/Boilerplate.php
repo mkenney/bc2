@@ -20,32 +20,32 @@ use \Bdlm\Core\Http;
  */
 trait Boilerplate {
 
-	/**
-	 * @var Cookie\Iface\Base
-	 */
-	protected $_cookie = null;
+    /**
+     * @var Cookie\Iface\Base
+     */
+    protected $_cookie = null;
 
-	/**
-	 * Get the current coolie instance
-	 *
-	 * @return Cookie\Ifase\Base The current cookie instance
-	 */
-	public function getCookie() {
-		$ret_val = false;
-		if ($this->_cookie instanceof Http\Cookie\Iface\Base) {
-			$ret_val = $this->_cookie;
-		}
-		return $ret_val;
-	}
+    /**
+     * Get the current coolie instance
+     *
+     * @return Cookie\Ifase\Base The current cookie instance
+     */
+    public function getCookie() {
+        $ret_val = false;
+        if ($this->_cookie instanceof Http\Cookie\Iface\Base) {
+            $ret_val = $this->_cookie;
+        }
+        return $ret_val;
+    }
 
-	/**
-	 * Set a cookie instance for this object to reference
-	 *
-	 * @param  Cookie\Iface\Base $cookie A cookie instance to reference
-	 * @return Object\Iface\Base The current instance
-	 */
-	public function setCookie(Http\Cookie\Iface\Base $cookie) {
-		$this->_cookie = $cookie;
-		return $this;
-	}
+    /**
+     * Set a cookie instance for this object to reference
+     *
+     * @param  Cookie\Iface\Base $cookie A cookie instance to reference
+     * @return Object\Iface\Base The current instance
+     */
+    public function setCookie(Http\Cookie\Iface\Base $cookie) {
+        $this->_cookie = $cookie;
+        return $this;
+    }
 }

@@ -20,96 +20,96 @@ use \Bdlm\Core;
  */
 interface Base extends Core\Object\Iface\Base {
 
-	/**
-	 * Get the cookie domain
-	 * @return string
-	 */
-	public function getDomain();
+    /**
+     * Get the cookie domain
+     * @return string
+     */
+    public function getDomain();
 
-	/**
-	 * Set the cookie domain
-	 * @param  string $domain
-	 * @return Bdlm\Core\Http\Cookie\Iface
-	 */
-	public function setDomain($domain);
+    /**
+     * Set the cookie domain
+     * @param  string $domain
+     * @return Bdlm\Core\Http\Cookie\Iface
+     */
+    public function setDomain($domain);
 
-	/**
-	 * Get the cookie HTTPOnly flag
-	 * @return bool
-	 */
-	public function getHttpOnly();
+    /**
+     * Get the cookie HTTPOnly flag
+     * @return bool
+     */
+    public function getHttpOnly();
 
-	/**
-	 * Set the cookie HTTPOnly flag
-	 * @param bool $httponly
-	 * @return Cookie\Iface\Base
-	 */
-	public function setHttpOnly($httponly);
+    /**
+     * Set the cookie HTTPOnly flag
+     * @param bool $httponly
+     * @return Cookie\Iface\Base
+     */
+    public function setHttpOnly($httponly);
 
-	/**
-	 * Get the cookie name property
-	 * @return string
-	 */
-	public function getName();
+    /**
+     * Get the cookie name property
+     * @return string
+     */
+    public function getName();
 
-	/**
-	 * Set the cookie name property
-	 * @param string $name
-	 * @return Cookie\Iface\Base
-	 * @throws \InvalidArgumentException
-	 */
-	public function setName($name);
+    /**
+     * Set the cookie name property
+     * @param string $name
+     * @return Cookie\Iface\Base
+     * @throws \InvalidArgumentException
+     */
+    public function setName($name);
 
-	/**
-	 * Get the cookie path value
-	 * @return string
-	 */
-	public function getPath();
+    /**
+     * Get the cookie path value
+     * @return string
+     */
+    public function getPath();
 
-	/**
-	 * Set the cookie path value
-	 * @param  string $path
-	 * @return Bdlm\Core\Http\Cookie\Iface
-	 */
-	public function setPath($path);
+    /**
+     * Set the cookie path value
+     * @param  string $path
+     * @return Bdlm\Core\Http\Cookie\Iface
+     */
+    public function setPath($path);
 
-	/**
-	 * Get the cookie secure flag
-	 * @return bool
-	 */
-	public function getSecure();
+    /**
+     * Get the cookie secure flag
+     * @return bool
+     */
+    public function getSecure();
 
-	/**
-	 * Set the cookie secure flag
-	 * @param  bool $secure
-	 * @return Bdlm\Core\Http\Cookie\Iface
-	 */
-	public function setSecure($secure);
+    /**
+     * Set the cookie secure flag
+     * @param  bool $secure
+     * @return Bdlm\Core\Http\Cookie\Iface
+     */
+    public function setSecure($secure);
 
-	/**
-	 * Get the cookie timeout value
-	 * @return  int The timeout time stamp in seconds
-	 */
-	public function getTimeout();
+    /**
+     * Get the cookie timeout value
+     * @return  int The timeout time stamp in seconds
+     */
+    public function getTimeout();
 
-	/**
-	 * Set the cookie timeout value
-	 * A value of 0 creates a session cookie
-	 * @param  int $timeout                A future timestamp specifying when
-	 *                                     this cookie should expire. A timestamp
-	 *                                     in the past will expire this cookie
-	 *                                     immediately
-	 * @return Bdlm\Core\Http\Cookie\Iface
-	 */
-	public function setTimeout($timeout);
+    /**
+     * Set the cookie timeout value
+     * A value of 0 creates a session cookie
+     * @param  int $timeout                A future timestamp specifying when
+     *                                     this cookie should expire. A timestamp
+     *                                     in the past will expire this cookie
+     *                                     immediately
+     * @return Bdlm\Core\Http\Cookie\Iface
+     */
+    public function setTimeout($timeout);
 
-	/**
-	 * Set the future timeout timestamp by specifying a number of seconds relative
-	 * to now. Convience method.
-	 * @param  int $seconds                The number of seconds this cookie should
-	 *                                     exist for
-	 * @return Bdlm\Core\Http\Cookie\Iface
-	 */
-	public function timeoutIn($seconds);
+    /**
+     * Set the future timeout timestamp by specifying a number of seconds relative
+     * to now. Convience method.
+     * @param  int $seconds                The number of seconds this cookie should
+     *                                     exist for
+     * @return Bdlm\Core\Http\Cookie\Iface
+     */
+    public function timeoutIn($seconds);
 
 }

@@ -18,40 +18,40 @@ namespace Bdlm\Core\Object\Mixin;
  */
 trait ArrayAccess {
 
-	/**
-	 * ArrayAccess implementation of offsetExists()
-	 * @param mixed $var
-	 * @return bool
-	 */
-	final public function offsetExists($var) {
-		return $this->has($var);
-	}
+    /**
+     * ArrayAccess implementation of offsetExists()
+     * @param mixed $var
+     * @return bool
+     */
+    final public function offsetExists($var) {
+        return $this->has($var);
+    }
 
-	/**
-	 * ArrayAccess implementation of offsetGet()
-	 * @param mixed $var
-	 * @return mixed
-	 */
-	final public function offsetGet($var) {
-		return $this->get($var);
-	}
+    /**
+     * ArrayAccess implementation of offsetGet()
+     * @param mixed $var
+     * @return mixed
+     */
+    final public function offsetGet($var) {
+        return $this->get($var);
+    }
 
-	/**
-	 * ArrayAccess implementation of offset()
-	 * @param mixed $var
-	 * @param mixed $val
-	 * @return void
-	 */
-	final public function offsetSet($var, $val) {
-		$this->set($var, $val);
-	}
+    /**
+     * ArrayAccess implementation of offset()
+     * @param mixed $var
+     * @param mixed $val
+     * @return void
+     */
+    final public function offsetSet($var, $val) {
+        $this->set($var, $val);
+    }
 
-	/**
-	 * ArrayAccess implementation of offsetUnset()
-	 * @param mixed $var
-	 * @return void
-	 */
-	final public function offsetUnset($var) {
-		$this->delete($var);
-	}
+    /**
+     * ArrayAccess implementation of offsetUnset()
+     * @param mixed $var
+     * @return void
+     */
+    final public function offsetUnset($var) {
+        $this->delete($var);
+    }
 }

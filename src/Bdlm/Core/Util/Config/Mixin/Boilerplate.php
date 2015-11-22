@@ -20,32 +20,32 @@ use \Bdlm\Core\Util;
  */
 trait Boilerplate {
 
-	/**
-	 * @var Util\Config\Iface\Base
-	 */
-	protected $_config = null;
+    /**
+     * @var Util\Config\Iface\Base
+     */
+    protected $_config = null;
 
-	/**
-	 * Get the current config instance
-	 *
-	 * @return Util\Config\Iface\Base|false The current config instance, else false
-	 */
-	public function getConfig() {
-		$ret_val = false;
-		if ($this->_config instanceof Util\Config\Iface\Base) {
-			$ret_val = $this->_config;
-		}
-		return $this->_config;
-	}
+    /**
+     * Get the current config instance
+     *
+     * @return Util\Config\Iface\Base|false The current config instance, else false
+     */
+    public function getConfig() {
+        $ret_val = false;
+        if ($this->_config instanceof Util\Config\Iface\Base) {
+            $ret_val = $this->_config;
+        }
+        return $this->_config;
+    }
 
-	/**
-	 * Set a config instance for this object to reference
-	 *
-	 * @param Util\Config\Iface\Base     $config A config instance to reference
-	 * @return \Bdlm\Core\Object\Iface\Base         The current instance
-	 */
-	public function setConfig(Util\Config\Iface\Base $config) {
-		$this->_config = $config;
-		return $this;
-	}
+    /**
+     * Set a config instance for this object to reference
+     *
+     * @param Util\Config\Iface\Base     $config A config instance to reference
+     * @return \Bdlm\Core\Object\Iface\Base         The current instance
+     */
+    public function setConfig(Util\Config\Iface\Base $config) {
+        $this->_config = $config;
+        return $this;
+    }
 }

@@ -20,31 +20,31 @@ use Bdlm\Core\Util;
  */
 trait Boilerplate {
 
-	/**
-	 * @var Util\Encryption\Iface\Base
-	 */
-	protected $_encryption = null;
+    /**
+     * @var Util\Encryption\Iface\Base
+     */
+    protected $_encryption = null;
 
-	/**
-	 * Access the local encryption instance
-	 *
-	 * @return Util\Encryption\Iface\Base|false The current instance, else false
-	 */
-	public function getEncryption() {
-		$ret_val = false;
-		if ($this->_encryption instanceof Util\Encryption\Iface\Base) {
-			$ret_val = $this->_encryption;
-		}
-		return $ret_val;
-	}
+    /**
+     * Access the local encryption instance
+     *
+     * @return Util\Encryption\Iface\Base|false The current instance, else false
+     */
+    public function getEncryption() {
+        $ret_val = false;
+        if ($this->_encryption instanceof Util\Encryption\Iface\Base) {
+            $ret_val = $this->_encryption;
+        }
+        return $ret_val;
+    }
 
-	/**
-	 * Set a local encryption instance
-	 *
-	 * @return Object\Iface\Base The current instance
-	 */
-	public function setEncryption(Util\Encryption\Iface\Base $encryption) {
-		$this->_encryption = $encryption;
-		return $this;
-	}
+    /**
+     * Set a local encryption instance
+     *
+     * @return Object\Iface\Base The current instance
+     */
+    public function setEncryption(Util\Encryption\Iface\Base $encryption) {
+        $this->_encryption = $encryption;
+        return $this;
+    }
 }

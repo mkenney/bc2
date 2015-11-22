@@ -20,43 +20,43 @@ namespace Bdlm\Core\Object\Mixin;
  */
 trait Magic {
 
-	/**
-	 * @return mixed
-	 */
-	final public function __get($var) {
-		return $this->get($var);
-	}
+    /**
+     * @return mixed
+     */
+    final public function __get($var) {
+        return $this->get($var);
+    }
 
-	/**
-	 * @return bool
-	 */
-	final public function __isset($var) {
-		return $this->has($var);
-	}
+    /**
+     * @return bool
+     */
+    final public function __isset($var) {
+        return $this->has($var);
+    }
 
-	/**
-	 * @return void
-	 */
-	final public function __set($var, $val) {
-		$this->set($var, $val);
-	}
+    /**
+     * @return void
+     */
+    final public function __set($var, $val) {
+        $this->set($var, $val);
+    }
 
-	/**
-	 * Alias the API implementation if available
-	 * @return string
-	 */
-	final public function __toString() {
-		$ret_val = '';
-		if (method_exists($this, 'toString')) {
-			$ret_val = $this->toString();
-		}
-		return $ret_val;
-	}
+    /**
+     * Alias the API implementation if available
+     * @return string
+     */
+    final public function __toString() {
+        $ret_val = '';
+        if (method_exists($this, 'toString')) {
+            $ret_val = $this->toString();
+        }
+        return $ret_val;
+    }
 
-	/**
-	 * @return void
-	 */
-	final public function __unset($var) {
-		$this->delete($var);
-	}
+    /**
+     * @return void
+     */
+    final public function __unset($var) {
+        $this->delete($var);
+    }
 }

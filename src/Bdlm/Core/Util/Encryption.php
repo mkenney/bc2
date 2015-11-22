@@ -18,12 +18,12 @@ namespace Bdlm\Core\Util;
  */
 class Encryption implements Encryption\Iface\Base {
 
-	use Encryption\Mixin\Aes256;
+    use Encryption\Mixin\Aes256;
 
-	public function __construct($key = '', $iv = null) {
-		$this->setKey($key);
-		if (!is_null($iv)) {
-			$this->setIv($iv);
-		}
-	}
+    public function __construct($key = '', $iv = null) {
+        $this->setKey($key);
+        if (!is_null($iv)) {
+            $this->setIv($iv);
+        }
+    }
 }

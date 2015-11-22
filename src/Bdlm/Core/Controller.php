@@ -18,36 +18,36 @@ namespace Bdlm\Core;
  */
 class Controller extends Object implements Controller\Iface\Base {
 
-	/**
-	 * Model boilerplate to implement Controller\Iface\Base
-	 * @trait
-	 */
-	use Model\Mixin\Boilerplate;
+    /**
+     * Model boilerplate to implement Controller\Iface\Base
+     * @trait
+     */
+    use Model\Mixin\Boilerplate;
 
-	/**
-	 * View boilerplate to implement Controller\Iface\Base
-	 * @trait
-	 */
-	use View\Mixin\Boilerplate;
+    /**
+     * View boilerplate to implement Controller\Iface\Base
+     * @trait
+     */
+    use View\Mixin\Boilerplate;
 
-	/**
-	 * Config boilerplate to implement Controller\Iface\Base
-	 * @trait
-	 */
-	use Util\Config\Mixin\Boilerplate;
+    /**
+     * Config boilerplate to implement Controller\Iface\Base
+     * @trait
+     */
+    use Util\Config\Mixin\Boilerplate;
 
-	/**
-	 * Initialize this controller
-	 *
-	 * @param \Bdlm\Core\Model $model The Model this controller should use
-	 * @param \Bdlm\Core\View  $view  The View this controller should use
-	 */
-	public function __construct(Model\Iface\Base $model, View\Iface\Base $view, Util\Config\Iface\Base $config = null) {
-		$this->setModel($model);
-		$this->setView($view);
-		if (!is_null($config)) {
-			$this->setConfig($config);
-		}
-	}
+    /**
+     * Initialize this controller
+     *
+     * @param \Bdlm\Core\Model $model The Model this controller should use
+     * @param \Bdlm\Core\View  $view  The View this controller should use
+     */
+    public function __construct(Model\Iface\Base $model, View\Iface\Base $view, Util\Config\Iface\Base $config = null) {
+        $this->setModel($model);
+        $this->setView($view);
+        if (!is_null($config)) {
+            $this->setConfig($config);
+        }
+    }
 
 }

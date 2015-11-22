@@ -18,10 +18,10 @@ namespace Bdlm\Core\Object\Mixin;
  */
 trait Countable {
 
-	/**
-	 * Countable implementation of count()
-	 */
-	public function count() {
-		return count($this->getData());
-	}
+    /**
+     * Countable implementation of count()
+     */
+    public function count() {
+        return count($this->getData());
+    }
 }

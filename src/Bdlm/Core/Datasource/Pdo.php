@@ -20,105 +20,96 @@ namespace Bdlm\Core\Datasource;
  */
 class Pdo extends DatasourceAbstract {
 
-	/**
-	 * Default values
-	 * @var array
-	 */
-	protected $_data = [
-		'type'   => DatasourceAbstract::TYPE_PDO,
-		'is_oci' => false,
-	];
+    /**
+     * Default values
+     * @var array
+     */
+    protected $_data = [
+        'type'   => DatasourceAbstract::TYPE_PDO,
+    ];
 
-	/**
-	 * Always roll-back on close
-	 *
-	 * @return void
-	 */
-	final public function __destruct() {
-		if (
-			$this->getConnection() instanceof \PDO
-			&& $this->getConnection()->inTransaction()
-		) {
-			$this->getConnection()->rollBack();
-		}
-	}
+    /**
+     * Always roll-back on close
+     *
+     * @return void
+     */
+    final public function __destruct() {
+        if (
+            $this->getConnection() instanceof \PDO
+            && $this->getConnection()->inTransaction()
+        ) {
+            $this->getConnection()->rollBack();
+        }
+    }
 
-	/**
-	 * Commit changes, if any
-	 *
-	 * @return boolean
-	 */
-	public function commit() {
-		return $this->getConnection()->commit();
-	}
+    /**
+     * Commit changes, if any
+     *
+     * @return boolean
+     */
+    public function commit() {
+        return $this->getConnection()->commit();
+    }
 
-	/**
-	 * Connect to the database
-	 *
-	 * @return DatasourceAbstract $this
-	 */
-	public function connect() {
-		$this->setConnection(new \PDO($this->getDsn(), $this->getUsername(), $this->getPassword()));
-		$driver = explode(':', $this->getDsn())[0];
-		$this->setDriver($driver);
-		if ('oci' === $driver) {
-			$this->isOci(true);
-			// Create OCI workarounds as necessary using oci_* functions because
-			// PDO_OCI isn't stable
-		}
+    /**
+     * Connect to the database
+     *
+     * @return DatasourceAbstract $this
+     */
+    public function connect() {
+        $this->setConnection(new \PDO($this->getDsn(), $this->getUsername(), $this->getPassword()));
+        $driver = explode(':', $this->getDsn())[0];
+        $this->setDriver($driver);
 
-		$this->getConnection()->beginTransaction();
-		return $this;
-	}
+        $this->getConnection()->beginTransaction();
+        return $this;
+    }
 
-	/**
-	 * Prepare a PDO-based query object
-	 *
-	 * @param  string $query  The query to execute
-	 * @param  array  $data   Bind data
-	 * @return Datasource\Pdo
-	 */
-	public function prepareQuery($query, $data = []) {
-		if (!$this->getConnection()) {$this->connect();}
-		return new Query\Pdo($this, $query, $data);
-	}
+    /**
+     * Prepare a PDO-based query object
+     *
+     * @param  string $query  The query to execute
+     * @param  array  $data   Bind data
+     * @return Datasource\Pdo
+     */
+    public function prepareQuery($query, $data = []) {
+        if (!$this->getConnection()) {$this->connect();}
+        return new Query\Pdo($this, $query, $data);
+    }
 
-	/**
-	 * Flag for Oracle, PDO_OCI isn't stable so if this is true, work around it
-	 *
-	 * @param  boolean|null $is_oci If null, return the current value, else set
-	 *                              a new value
-	 * @return boolean
-	 */
-	public function isOci($is_oci = null) {
-		if (!is_null($is_oci)) {$this->set('is_oci', (bool) $is_oci);}
-		return $this->get('is_oci');
-	}
+    /**
+     * Get the driver name from the DSN string
+     * @return [type] [description]
+     */
+    public function getDriver() {
+        return $this->get('pdo_driver');
+    }
 
-	/**
-	 * Get the driver name from the DSN string
-	 * @return [type] [description]
-	 */
-	public function getDriver() {
-		return $this->get('pdo_driver');
-	}
+    /**
+     * Set the driver name in the DSN string
+     * @param string $driver The driver name (mysql, etc.)
+     */
+    public function setDriver($driver) {
+        return $this->set('pdo_driver', (string) $driver);
+    }
 
-	/**
-	 * Get the driver name from the DSN string
-	 * @param string $driver The driver name (mysql, oci, etc.)
-	 */
-	public function setDriver($driver) {
-		return $this->set('pdo_driver', (string) $driver);
-	}
+    /**
+     * Quote a value for use in a SQL query
+     * Will trigger a database connection using the current DSN if one doesn't
+     * exist yet.
+     * @param  mixed $value
+     * @param  bool  $autoquote If false, strip any quotes added by your Datasource's
+     *                          quote algorithm
+     * @return string
+     */
+    final public function quote($value, $autoquote = true) {
+        if (!$this->hasConnection()) {
+            $this->connect();
+        }
 
-	/**
-	 * Quote a value for toString output
-	 * @param  mixed  $value
-	 * @return string
-	 */
-	final public function quote($value) {
-		$quote_char = '';
-		if (!is_numeric($value)) {$quote_char = "'";}
-		return $quote_char.\addslashes($value).$quote_char;
-	}
+        $ret_val = $this->getConnection()->quote($value);
+        if (!(bool) $autoquote) {$ret_val = trim($ret_val, '\'');}
+
+        return $ret_val;
+    }
 }

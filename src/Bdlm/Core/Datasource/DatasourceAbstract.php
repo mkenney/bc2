@@ -21,47 +21,46 @@ use \Bdlm\Core;
  * @version 0.0.1
  */
 abstract class DatasourceAbstract implements
-	  Iface\Base
-	, Core\Object\Iface\Base
-	, Core\Object\Iface\Magic
-	, \Iterator
-	, \ArrayAccess
-	, \Countable
-	, \Serializable
+    Iface\Base
+    , Core\Object\Iface\Base
+    , Core\Object\Iface\Magic
+    , \Iterator
+    , \ArrayAccess
+    , \Countable
+    , \Serializable
 {
 
-	/**
-	 * \Serializable implementation
-	 */
-	use Core\Datasource\Mixin\Base;
+    /**
+     * \Serializable implementation
+     */
+    use Core\Datasource\Mixin\Base;
 
-	/**
-	 * Object\Iface\Core implementation
-	 */
-	use Core\Object\Mixin\Base {
-		Core\Datasource\Mixin\Base::getType insteadof Core\Object\Mixin\Base;
-		Core\Datasource\Mixin\Base::setType insteadof Core\Object\Mixin\Base;
-	}
+    /**
+     * Object\Iface\Core implementation
+     */
+    use Core\Object\Mixin\Base {
+        Core\Datasource\Mixin\Base::getType insteadof Core\Object\Mixin\Base;
+        Core\Datasource\Mixin\Base::setType insteadof Core\Object\Mixin\Base;
+    }
 
-	/**
-	 * Object\Iface\Magic implementation
-	 */
-	use Core\Object\Mixin\Magic;
-	/**
-	 * \ArrayAccess implementation
-	 */
-	use Core\Object\Mixin\ArrayAccess;
-	/**
-	 * \Countable implementation
-	 */
-	use Core\Object\Mixin\Countable;
-	/**
-	 * \Iterator implementation
-	 */
-	use Core\Object\Mixin\Iterator;
-	/**
-	 * \Serializable implementation
-	 */
-	use Core\Object\Mixin\Serializable;
-
+    /**
+     * Object\Iface\Magic implementation
+     */
+    use Core\Object\Mixin\Magic;
+    /**
+     * \ArrayAccess implementation
+     */
+    use Core\Object\Mixin\ArrayAccess;
+    /**
+     * \Countable implementation
+     */
+    use Core\Object\Mixin\Countable;
+    /**
+     * \Iterator implementation
+     */
+    use Core\Object\Mixin\Iterator;
+    /**
+     * \Serializable implementation
+     */
+    use Core\Object\Mixin\Serializable;
 }

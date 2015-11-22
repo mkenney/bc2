@@ -16,6 +16,4 @@ namespace Bdlm\App\Page;
  * @package Bdlm
  * @version 0.0.1
  */
-class Model extends \Bdlm\Core\Model {
-
-}
+class Model extends \Bdlm\Core\Model {}

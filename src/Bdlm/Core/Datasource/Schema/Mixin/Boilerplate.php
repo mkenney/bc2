@@ -7,7 +7,7 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\Core\Datasource\Mixin;
+namespace Bdlm\Core\Datasource\Schema\Mixin;
 
 use \Bdlm\Core;
 
@@ -23,25 +23,25 @@ trait Boilerplate {
     /**
      * @var Core\Datasource\Datasource
      */
-    protected $_datasource = null;
+    protected $_schema = null;
 
     /**
      * Get the current datasource instance
      *
      * @return Core\Datasource\Datasource\Iface\Base|false The current datasource instance, else false
      */
-    public function getDatasource() {
-        return $this->_datasource;
+    public function getSchema() {
+        return $this->_schema;
     }
 
     /**
-     * Set a datasource instance for this object to reference
+     * Set a schema instance for this object to reference
      *
-     * @param Core\Datasource\Datasource $datasource A datasource instance to reference
-     * @return Core\Datasource\Iface\Base            The current instance
+     * @param Core\Datasource\Schema $schema A schema instance to reference
+     * @return Core\Datasource\Schema\Iface\Base            The current instance
      */
-    public function setDatasource(Core\Datasource\Iface\Base $datasource) {
-        $this->_datasource = $datasource;
+    public function setSchema(Core\Datasource\Schema\Iface\Base $schema) {
+        $this->_schema = $schema;
         return $this;
     }
 }

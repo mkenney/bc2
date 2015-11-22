@@ -20,32 +20,32 @@ use \Bdlm\Core;
  */
 trait Boilerplate {
 
-	/**
-	 * @var Core\View\Iface\Base
-	 */
-	protected $_view = null;
+    /**
+     * @var Core\View\Iface\Base
+     */
+    protected $_view = null;
 
-	/**
-	 * Get the current view instance
-	 *
-	 * @return Core\View\Iface\Base|false The current view instance, else false
-	 */
-	public function getView() {
-		$ret_val = false;
-		if ($this->_view instanceof Core\View\Iface\Base) {
-			$ret_val = $this->_view;
-		}
-		return $ret_val;
-	}
+    /**
+     * Get the current view instance
+     *
+     * @return Core\View\Iface\Base|false The current view instance, else false
+     */
+    public function getView() {
+        $ret_val = false;
+        if ($this->_view instanceof Core\View\Iface\Base) {
+            $ret_val = $this->_view;
+        }
+        return $ret_val;
+    }
 
-	/**
-	 * Set a view instance for this object to reference
-	 *
-	 * @param  Core\View\Iface\Base   $view A view instance to reference
-	 * @return Core\Object\Iface\Base The current instance
-	 */
-	public function setView(Core\View\Iface\Base $view) {
-		$this->_view = $view;
-		return $this;
-	}
+    /**
+     * Set a view instance for this object to reference
+     *
+     * @param  Core\View\Iface\Base   $view A view instance to reference
+     * @return Core\Object\Iface\Base The current instance
+     */
+    public function setView(Core\View\Iface\Base $view) {
+        $this->_view = $view;
+        return $this;
+    }
 }

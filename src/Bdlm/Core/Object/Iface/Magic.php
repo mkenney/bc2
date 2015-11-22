@@ -18,28 +18,28 @@ namespace Bdlm\Core\Object\Iface;
  */
 interface Magic {
 
-	/**
-	 * @return mixed
-	 */
-	public function __get($var);
+    /**
+     * @return mixed
+     */
+    public function __get($var);
 
-	/**
-	 * @return bool
-	 */
-	public function __isset($var);
+    /**
+     * @return bool
+     */
+    public function __isset($var);
 
-	/**
-	 * @return void
-	 */
-	public function __set($var, $val);
+    /**
+     * @return void
+     */
+    public function __set($var, $val);
 
-	/**
-	 * @return string
-	 */
-	public function __toString();
+    /**
+     * @return string
+     */
+    public function __toString();
 
-	/**
-	 * @return void
-	 */
-	public function __unset($var);
+    /**
+     * @return void
+     */
+    public function __unset($var);
 }

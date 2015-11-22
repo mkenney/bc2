@@ -18,35 +18,35 @@ namespace Bdlm\Core\Object\Mixin;
  */
 trait Serializable {
 
-	/**
-	 * Serializable implementation of serialize()
-	 * @return string The serialized _data array
-	 */
-	public function serialize() {
-		return serialize([
-			'_is_static' => $this->isStatic(),
-			'_max' => $this->max(),
-			'_min' => $this->min(),
-			'_mode' => $this->mode(),
-			'_name' => $this->name(),
-			'_type' => $this->type(),
-			'_data' => $this->getData(),
-		]);
-	}
+    /**
+     * Serializable implementation of serialize()
+     * @return string The serialized _data array
+     */
+    public function serialize() {
+        return serialize([
+            '_is_static' => $this->isStatic(),
+            '_max' => $this->max(),
+            '_min' => $this->min(),
+            '_mode' => $this->mode(),
+            '_name' => $this->name(),
+            '_type' => $this->type(),
+            '_data' => $this->getData(),
+        ]);
+    }
 
-	/**
-	 * Serializable implementation of serialize()
-	 * @param string $data A serialized instance of ObjectAbstract
-	 * @return void
-	 */
-	public function unserialize($data) {
-		$data = unserialize($data);
-		$this->isStatic($data['_is_static']);
-		$this->max($data['_max']);
-		$this->min($data['_min']);
-		$this->mode($data['_mode']);
-		$this->name($data['_name']);
-		$this->type($data['_type']);
-		$this->setData($data['_data']);
-	}
+    /**
+     * Serializable implementation of serialize()
+     * @param string $data A serialized instance of ObjectAbstract
+     * @return void
+     */
+    public function unserialize($data) {
+        $data = unserialize($data);
+        $this->isStatic($data['_is_static']);
+        $this->max($data['_max']);
+        $this->min($data['_min']);
+        $this->mode($data['_mode']);
+        $this->name($data['_name']);
+        $this->type($data['_type']);
+        $this->setData($data['_data']);
+    }
 }

@@ -31,62 +31,62 @@ namespace Bdlm\Core;
  * @todo write unit tests
  */
 class Object implements
-	Object\Iface\Base
-	, Object\Iface\Magic
-	, Object\Iface\Validation
-	, \Iterator
-	, \ArrayAccess
-	, \Countable
-	, \Serializable
+    Object\Iface\Base
+    , Object\Iface\Magic
+    , Object\Iface\Validation
+    , \Iterator
+    , \ArrayAccess
+    , \Countable
+    , \Serializable
 {
-	/**
-	 * Object\Iface\Base implementation
-	 */
-	use Object\Mixin\Base;
-	/**
-	 * Object\Iface\Magic implementation
-	 */
-	use Object\Mixin\Magic;
-	/**
-	 * Object\Iface\Validation implementation
-	 */
-	use Object\Mixin\Validation;
-	/**
-	 * \ArrayAccess implementation
-	 */
-	use Object\Mixin\ArrayAccess;
-	/**
-	 * \Countable implementation
-	 */
-	use Object\Mixin\Countable;
-	/**
-	 * \Iterator implementation
-	 */
-	use Object\Mixin\Iterator;
-	/**
-	 * \Serializable implementation
-	 */
-	use Object\Mixin\Serializable;
+    /**
+     * Object\Iface\Base implementation
+     */
+    use Object\Mixin\Base;
+    /**
+     * Object\Iface\Magic implementation
+     */
+    use Object\Mixin\Magic;
+    /**
+     * Object\Iface\Validation implementation
+     */
+    use Object\Mixin\Validation;
+    /**
+     * \ArrayAccess implementation
+     */
+    use Object\Mixin\ArrayAccess;
+    /**
+     * \Countable implementation
+     */
+    use Object\Mixin\Countable;
+    /**
+     * \Iterator implementation
+     */
+    use Object\Mixin\Iterator;
+    /**
+     * \Serializable implementation
+     */
+    use Object\Mixin\Serializable;
 
-	/**
-	 * Initialize and populate data, if any.
-	 *
-	 * If data is an array, it is stored as-is, otherwise it's typed as an array first.
-	 *
-	 * @param mixed $data   The initial data to store in the new object
-	 * @param bool  $nested If true, recursivly convert $data to nested objec instances
-	 * @return Bdlm_Object
-	 */
-	public function __construct($data = null, $nested = false) {
-		if (!is_null($data)) {
-			if ($data instanceof \Bdlm\Core\Object) {
-				$data = $data->getData();
-			}
-			if ($nested) {
-				$data = $this->toObject($data);
-			}
+    /**
+     * Initialize and populate data, if any.
+     *
+     * If data is an array, it is stored as-is, otherwise it's typed as an array first.
+     *
+     * @param mixed $data   The initial data to store in the new object
+     * @param bool  $nested If true, recursivly convert $data to nested objec instances
+     * @return Bdlm_Object
+     */
+    public function __construct($data = null, $nested = false) {
+        if (!is_null($data)) {
+            if ($data instanceof \Bdlm\Core\Object) {
+                $data = $data->getData();
+            }
+            if ($nested) {
+                $data = $this->toObject($data);
+            }
 
-			$this->setData((array) $data);
-		}
-	}
+            $this->setData((array) $data);
+        }
+    }
 }

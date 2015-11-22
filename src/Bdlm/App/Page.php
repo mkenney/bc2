@@ -20,29 +20,29 @@ use \Bdlm\Core;
  */
 class Page extends \Bdlm\Core\Controller {
 
-	use Core\Util\Encryption\Mixin\Boilerplate;
+    use Core\Util\Encryption\Mixin\Boilerplate;
 
-	use Core\Http\Cookie\Mixin\Boilerplate;
+    use Core\Http\Cookie\Mixin\Boilerplate;
 
-	public function __construct(
-		Core\Model\Iface\Base $model
-		, Core\View\Iface\Base $view
-		, Core\Util\Config\Iface\Base $config
-	) {
-		parent::__construct($model, $view, $config);
+    public function __construct(
+        Core\Model\Iface\Base $model
+        , Core\View\Iface\Base $view
+        , Core\Util\Config\Iface\Base $config
+    ) {
+        parent::__construct($model, $view, $config);
 
-		$this->setName('page');
-		$this->setCookie(new Core\Http\Cookie($this->getName()));
-	}
+        $this->setName('page');
+        $this->setCookie(new Core\Http\Cookie($this->getName()));
+    }
 
-	public function getTitle() {
-		return $this['title'];
-	}
+    public function getTitle() {
+        return $this['title'];
+    }
 
-	public function setTitle($title) {
-		$this['title'] = (string) $title;
-		return $this;
-	}
+    public function setTitle($title) {
+        $this['title'] = (string) $title;
+        return $this;
+    }
 
 
 }

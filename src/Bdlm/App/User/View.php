@@ -9,8 +9,6 @@
 
 namespace Bdlm\App\User;
 
-use \Bdlm\Core;
-
 /**
  * User view
  *
@@ -18,6 +16,4 @@ use \Bdlm\Core;
  * @package Bdlm
  * @version 0.0.1
  */
-class View extends Core\View {
-
-}
+class View extends \Bdlm\Core\View {}
