@@ -8,7 +8,7 @@
  */
 
 /**
- * A place to put globals
+ * Provide a global namespace for
  *
  * @author Michael Kenney <mkenney@webbedlam.com>
  * @package Bdlm
@@ -63,13 +63,13 @@ class Bdlm {
     }
 
     /**
-     * Storage for the default datastorage interface
-     * @todo   support multiple datastorage instances
+     * Storage for the default Datasource interface
+     * @todo   support multiple Datasource instances
      * @param  \Bdlm\Core\Datasource\Iface\Base $ds A datasource instance
      * @return \Bdlm\Core\Datasource\Iface\Base
      */
-    public static function ds($ds = null) {
-        if ($ds instanceof \Bdlm\Core\Datasource\Iface\Base) {
+    public static function ds(\Bdlm\Core\Datasource\Iface\Base $ds = null) {
+        if (!is_null($ds)) {
             self::$ds = $ds;
         }
         if (is_null(self::$ds)) {
