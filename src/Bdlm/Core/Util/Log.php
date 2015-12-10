@@ -7,17 +7,17 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\Core\Datasource\Object;
-use Bdlm\Core\Datasource;
-use Bdlm\Core;
+namespace Bdlm\Core\Util;
 
 /**
- * Abstract interface for representing a record definition in a Datasource
- *
- * Requires implementing
+ * Simple data encryption
  *
  * @author Michael Kenney <mkenney@webbedlam.com>
  * @package Bdlm
- * @version 2.0.0
+ * @version 0.1.27
  */
-class Pdo extends ObjectAbstract {}
+class Log implements Log\Iface\Base {
+
+    use Log\Mixin\Base;
+
+}

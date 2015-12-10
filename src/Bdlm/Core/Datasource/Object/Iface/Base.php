@@ -42,6 +42,23 @@ interface Base extends \Bdlm\Core\Object\Iface\Base {
     public function getSchema($schema_name);
 
     /**
+     * Initialize Record instances for all records related to the primary record in
+     * the primary schema
+     *
+     * @param  boolean $force [description]
+     * @return [type]         [description]
+     */
+    public function load($force = false);
+
+    /**
+     * Save this object's data to appropriate data storage
+     *
+     * @param  boolean                 $as_new If true, save this object's data as a new record
+     * @return Core\Model\Iface\Base   $this
+     */
+    public function save($force = false);
+
+    /**
      * Set the name of the primary schema for this object
      * @param string $schema_name
      */

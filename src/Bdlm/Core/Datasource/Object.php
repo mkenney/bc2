@@ -7,7 +7,7 @@
  * @license   https://github.com/mkenney/bc2/blob/master/LICENSE The MIT License (MIT)
  */
 
-namespace Bdlm\Core\Datasource\Object;
+namespace Bdlm\Core\Datasource;
 use Bdlm\Core;
 
 /**
@@ -17,7 +17,7 @@ use Bdlm\Core;
  * @package Bdlm
  * @version 2.0.0
  */
-abstract class ObjectAbstract implements
+class Object implements
     Core\Datasource\Object\Iface\Base
     , Core\Model\Iface\Base
     , Core\Object\Iface\Magic

@@ -288,7 +288,7 @@ interface Base {
      * @return string JSON
      * @throws \Exception
      */
-    public function toJson();
+    public function toJson($options = 0, $depth = 512);
 
     /**
      * Recursively convert stored arrays to Object instances

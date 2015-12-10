@@ -22,7 +22,9 @@ class Pdo extends RecordAbstract {
 
     /**
      * Copy this row
-     * This assumes that resetting the id column and then forcing a save will create a new row.
+     * This assumes that the id column is a generated sequence and that setting
+     * it to null and forcing a save call will create a new row
+     * create a new row.
      * @return bool
      */
     public function copy() {

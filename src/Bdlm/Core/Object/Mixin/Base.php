@@ -584,8 +584,8 @@ trait Base {
      * @return string JSON
      * @throws \Exception
      */
-    public function toJson() {
-        return json_encode($this->toArray());
+    public function toJson($options = 0, $depth = 512) {
+        return json_encode($this->toArray(), $options, $depth);
     }
 
     /**
@@ -619,7 +619,7 @@ trait Base {
      * @throws \Exception
      */
     public function toString() {
-        return $this->toJson();
+        return $this->toJson(JSON_PRETTY_PRINT);
     }
 
     /**

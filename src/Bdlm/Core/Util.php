@@ -246,6 +246,35 @@ HTML;
     }
 
     /**
+     * Escape html
+     *
+     * @param  string $string
+     * @param  int    $quote_style
+     * @param  string $charset
+     * @return string
+     */
+    public static function escapeHtml($string, $quote_style = ENT_COMPAT, $charset = 'UTF-8') {
+        $ret_val = htmlentities($string, $quote_style, $charset, false);
+
+        // Decoding may fail due to an invalid multi-byte character. Try to detect
+        // character encoding.
+        if (!$ret_val) {
+            $encoding_list = array('UTF-8', 'ISO-8859-1');
+            $encoding = mb_detect_encoding($string, $encoding_list);
+
+            // Try converting again using detected encoding
+            if (in_array($encoding, $encoding_list) && mb_check_encoding($string, $encoding)) {
+                $ret_val = htmlentities($string, $quote_style, $encoding, false);
+            }
+
+            if (!$ret_val) {
+                $ret_val = $string;
+            }
+        }
+        return $ret_val;
+    }
+
+    /**
      * Legacy support
      *
      * @param string $string
@@ -592,17 +621,13 @@ $filedata
     /**
      * Redirect browsers using various methods
      *
-     * The redirection method ($type) may be one of:<br />
-     * 'html'/void - The default action is to use HTML META refresh redirection<br />
-     * 'header' - header() redirection<br />
-     * 'javascript' - document.location redirection<br />
-     *
-     * @param string $url Target URL
-     * @param string $type Redirection method
-     * If "html" then a META refresh is used
-     * If "javascript" then the document.location value is updated
-     * If "post" then post data is included using a form.
-     * @param string $status The HTTP/1.1 redirection status code to use
+     * @param string $url    Target URL
+     * @param string $type   Redirection method, the default is to use HTTP header redirection.
+     *                         - If "header" then a HTTP redirect header is sent
+     *                         - If "html" then a META refresh is used
+     *                         - If "javascript" then the document.location value is updated
+     *                         - If "post" then post data is included using a form.
+     * @param string $status The HTTP/1.1 redirect status code to use
      * @return void
      * @version 0.29
      */
@@ -645,7 +670,7 @@ $filedata
             default:
 
                 // Redirection status headers
-                switch ($status) {
+                switch ((string) $status) {
                     case '301':
                         header('HTTP/1.1 301 Moved Permanently');
                     break;
@@ -705,19 +730,13 @@ $filedata
      */
     public static function sentenceCase($sentence = '') {
 
-        //
         // Make sure it's a string
-        //
         $sentence = (string) $sentence;
 
-        //
         // If it's empty, don't bother
-        //
         if ('' !== trim($sentence)) {
 
-            //
             // This is for the first letter
-            //
             $sentence = preg_replace(
                 // Any ammount of whitespace followed by a lowercase letter at
                 // the beginning of the string
@@ -726,9 +745,7 @@ $filedata
                 , $sentence
             );
 
-            //
             // This is for every other letter in the string that follows a period
-            //
             $sentence = preg_replace(
                 // A period followed by at least one whitespace character followed
                 // by a lower-case letter anywhere in the string

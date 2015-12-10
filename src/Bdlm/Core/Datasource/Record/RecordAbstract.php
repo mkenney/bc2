@@ -8,8 +8,8 @@
  */
 
 namespace Bdlm\Core\Datasource\Record;
-use Bdlm\Core\Datasource;
 use Bdlm\Core\Datasource\Schema;
+use Bdlm\Core\Datasource;
 use Bdlm\Core;
 
 /**
@@ -30,11 +30,7 @@ use Bdlm\Core;
  *         one containing the represented record
  *
  *     load()
- *         Load the data for a record specified by the current 'id' value
- *         @todo Unfortunately, this expects a field in your schema called 'id'
- *             that is the primary key for the represented record. I'll add
- *             custom key field names and multi-field keys after I have all
- *             this working right.
+ *         Load the data for a record specified by the primary key value
  *
  *     reset($field = null)
  *         Reset all fields to their default value. If data has not been loaded

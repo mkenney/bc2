@@ -23,7 +23,7 @@ trait Base {
      * The name of this objects primary schema
      * @var string
      */
-    protected $_primary_schema = null;
+    protected $_primary_schema_name = null;
 
     /**
      * The list of related schemas that make up this object
@@ -48,7 +48,7 @@ trait Base {
      * @return string
      */
     public function getPrimarySchemaName() {
-        return $this->_primary_schema;
+        return $this->_primary_schema_name;
     }
 
     /**
@@ -59,8 +59,8 @@ trait Base {
      */
     public function getSchema($schema_name) {
         $ret_val = false;
-        if (isset($this->_schemas[$schema_name])) {
-            $ret_val = $this->_schemas[$schema_name];
+        if ($this->_schemas->has($schema_name)) {
+            $ret_val = $this->_schemas->get($schema_name);
         }
         return $ret_val;
     }
@@ -174,7 +174,7 @@ SQL
     public function setPrimarySchemaName($schema_name) {
         $schema_name = trim($schema_name);
         if ($schema_name) {
-            $this->_primary_schema = $schema_name;
+            $this->_primary_schema_name = $schema_name;
         }
         return $this;
     }

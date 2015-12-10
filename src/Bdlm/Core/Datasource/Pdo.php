@@ -108,7 +108,7 @@ class Pdo extends DatasourceAbstract {
         }
 
         $ret_val = $this->getConnection()->quote($value);
-        if (!(bool) $autoquote) {$ret_val = trim($ret_val, '\'');}
+        if (true !== $autoquote) {$ret_val = trim($ret_val, '\'');}
 
         return $ret_val;
     }

@@ -10,7 +10,7 @@
 namespace Bdlm\Core\Object\Mixin;
 
 /**
- * Implementations for \Serializable
+ * Implementations of \Serializable for objects that use Object\Mixin\Base
  *
  * @author Michael Kenney <mkenney@webbedlam.com>
  * @package Bdlm
