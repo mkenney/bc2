@@ -19,16 +19,26 @@ namespace Bdlm\Core\Object\Iface;
 interface Magic {
 
     /**
+     * @param  string $var
      * @return mixed
      */
     public function __get($var);
 
     /**
+     * @param  mixed $data
+     * @return \Bdlm\Core\Object\Iface
+     */
+    public function __invoke($data);
+
+    /**
+     * @param  string $var
      * @return bool
      */
     public function __isset($var);
 
     /**
+     * @param  string $var
+     * @param  mixed  $val
      * @return void
      */
     public function __set($var, $val);
@@ -39,6 +49,7 @@ interface Magic {
     public function __toString();
 
     /**
+     * @param  string $var
      * @return void
      */
     public function __unset($var);

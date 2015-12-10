@@ -30,6 +30,13 @@ trait Magic {
     /**
      * @return bool
      */
+    final public function __invoke($data) {
+        return $this->setData($data);
+    }
+
+    /**
+     * @return bool
+     */
     final public function __isset($var) {
         return $this->has($var);
     }

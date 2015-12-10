@@ -195,14 +195,19 @@ abstract class RecordAbstract implements
         if (!$this->getSchema()->has($field)) {
             throw new \RuntimeException("The field '{$field}' does not exist in the schema '{$this->getSchema()->getName()}'");
         }
+        if (!$this->isLoaded() && !$this->isLoading()) {
+            $this->load();
+        }
         $ret_val = $this->_coreGet($field);
         return $ret_val;
     }
 
     /**
-     * Clear data.
-     * This will set all fields to an empty string, except certain "standard"
-     * fields (id, status, etc.).
+     * Clear data
+     *
+     * This will set all fields to the last loaded value if possible, otherwise
+     * it will use the schema's default value.
+     *
      * @param string $field The name of a specific field to reset.  <b>If left out, all fields will be reset</b>.
      * @return bool True on success, else false
      */
