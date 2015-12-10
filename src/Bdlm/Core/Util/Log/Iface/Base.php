@@ -64,7 +64,7 @@ interface Base {
     /**
      * Action must be taken
      *
-     * Use in all environments to signify a support issue. Halt system  execution.
+     * Use in all environments to signify a support issue. Halt system execution.
      *
      * This should be considered a tier-2 support issue
      */
@@ -80,9 +80,9 @@ interface Base {
     const EMERG = 8;
     /**
      * Custom DB connection error code
-     * 10 has no real significance, just not already taken by another error code
+     * 4096 is the next error code in the sequence after E_STRICT
      */
-    const E_DB_CONNECT = 10;
+    const E_DB_CONNECT = 4096;
    /**
      * Initialize the logger object - sets the environment (dev/test/prod) and the site name to use in logging
      *

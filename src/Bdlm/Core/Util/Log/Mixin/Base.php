@@ -183,7 +183,7 @@ trait Base {
             self::EMERG  => LOG_EMERG,
         ];
 
-        if (! isset($log_levels[$level])) {
+        if (!isset($log_levels[$level])) {
             $level = self::ERR;
         }
 
@@ -217,6 +217,12 @@ trait Base {
         openlog('bdlm', LOG_ODELAY | LOG_PID, LOG_LOCAL4);
         $ret_val = syslog($log_levels[$level], $output);;
         closelog();
+
+        // In development environments halt execution and throw an exception for
+        // all errors higher than warning
+        if ('dev' === self::$_env && $level > self::WARN) {
+            throw new \Exception($msg, $level);
+        }
 
         return $ret_val;
     }
