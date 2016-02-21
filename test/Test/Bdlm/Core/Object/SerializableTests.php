@@ -18,5 +18,7 @@ class SerializableTests extends \PHPUnit_Framework_TestCase {
         $serialized_object = serialize($object);
         $object2 = unserialize($serialized_object);
         $this->assertEquals($object, $object2);
+        $object->key = 'val';
+        $this->assertNotEquals($object, $object2);
     }
 }

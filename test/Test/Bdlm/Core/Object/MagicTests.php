@@ -44,7 +44,7 @@ class MagicTest extends \PHPUnit_Framework_TestCase {
             'two' => 'bar',
         ];
 
-        $this->assertEquals(json_encode($test_array, JSON_PRETTY_PRINT), "$object");
+        $this->assertEquals($test_array, $object->getData());
         $object->set('three', 'baz');
         $test_array['three'] = 'baz';
         $this->assertEquals(json_encode($test_array, JSON_PRETTY_PRINT), "$object");
@@ -59,21 +59,4 @@ class MagicTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($object->has('one'));
         $this->assertEquals(1, count($object));
     }
-
-    public function _testMagic() {
-        $this->assertEquals('foo', $object->one);
-        $this->assertEquals('bar', $object->two);
-
-        $object->set('two', 'baz');
-        $this->assertEquals('baz', $object->two);
-
-        $this->assertEquals('baz', $object->two);
-
-
-        unset($object->two);
-        $this->assertFalse(isset($object->two));
-
-        $this->assertEquals(json_encode(['one' => 'foo']), "$object");
-    }
-
 }
