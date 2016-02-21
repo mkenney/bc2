@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Bdlm\Core\Object;
+namespace Bc2_Test\Bdlm\Core\Object;
 
 class SerializableTests extends \PHPUnit_Framework_TestCase {
     protected $object = null;

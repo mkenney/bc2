@@ -6,7 +6,7 @@
 >
     <testsuites>
         <testsuite name="BC2 Unit Test Suite">
-            <directory suffix=".php">test/Test/</directory>
+            <directory suffix=".php">test/Bc2_Test/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

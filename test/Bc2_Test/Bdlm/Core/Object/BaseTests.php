@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Bdlm\Core\Object;
+namespace Bc2_Test\Bdlm\Core\Object;
 
 
 class TestObjectWithConstants extends \Bdlm\Core\Object {
