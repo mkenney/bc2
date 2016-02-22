@@ -41,7 +41,7 @@ use Bdlm\Core;
  *         Optionally, specify an individual field to reset. Follow the same
  *         rules for individual fields.
  *
- *     save()
+ *     save($as_new = false)
  *         Save any changes to this record to the current Datasource, optionally
  *         as a new record. Saving as a new record implies a copy() operation
  *         rather than 'moving' the current record in some way.

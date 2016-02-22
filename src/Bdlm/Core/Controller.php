@@ -19,6 +19,12 @@ namespace Bdlm\Core;
 class Controller extends Object implements Controller\Iface\Base {
 
     /**
+     * Config boilerplate to implement Controller\Iface\Base
+     * @trait
+     */
+    use Util\Config\Mixin\Boilerplate;
+
+    /**
      * Model boilerplate to implement Controller\Iface\Base
      * @trait
      */
@@ -31,16 +37,11 @@ class Controller extends Object implements Controller\Iface\Base {
     use View\Mixin\Boilerplate;
 
     /**
-     * Config boilerplate to implement Controller\Iface\Base
-     * @trait
-     */
-    use Util\Config\Mixin\Boilerplate;
-
-    /**
      * Initialize this controller
      *
-     * @param \Bdlm\Core\Model $model The Model this controller should use
-     * @param \Bdlm\Core\View  $view  The View this controller should use
+     * @param \Bdlm\Core\Model       $model  The Model this controller should use
+     * @param \Bdlm\Core\View        $view   The View this controller should use
+     * @param \Bdlm\Core\Util\Config $config Optional, a configuration object for this controller
      */
     public function __construct(Model\Iface\Base $model, View\Iface\Base $view, Util\Config\Iface\Base $config = null) {
         $this->setModel($model);
