@@ -25,7 +25,7 @@ class Pdo extends DatasourceAbstract {
      * @var array
      */
     protected $_data = [
-        'type'   => DatasourceAbstract::TYPE_PDO,
+        'type' => DatasourceAbstract::TYPE_PDO,
     ];
 
     /**

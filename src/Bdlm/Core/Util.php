@@ -62,9 +62,9 @@ class Util {
         echo
 <<<HTML
 <style type="text/css">
-fieldset.bc2-debug               {background: #bbb; border: 3px solid green; border-radius: 10px; padding: 5px; margin: 5px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 12px; max-width: 1000px; min-width: 1000px; width: 1000px;}
-fieldset.bc2-debug div.pre       {white-space: pre; border-radius: 3px; background: #000; color: #aaa; margin-top: 0.25em; padding: 0 0 1em 1em; overflow: scroll; font-family: monospace;}
-fieldset.bc2-debug div.backtrace {white-space: pre; border-radius: 3px; background: #000; color: #aaa; padding: 0.5em; margin: 1px 0; overflow: scroll; font-family: monospace;}
+fieldset.bc2-debug               {background: #ddd; border: 3px solid green; border-radius: 10px; padding: 5px; margin: 5px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 12px; max-width: 1000px; min-width: 1000px; width: 1000px;}
+fieldset.bc2-debug div.pre       {white-space: pre; border-radius: 3px; background: #eee; color: #333; margin-top: 0.25em; padding: 0 0 1em 1em; overflow: scroll; font-family: monospace;}
+fieldset.bc2-debug div.backtrace {white-space: pre; border-radius: 3px; background: #eee; color: #333; padding: 0.5em; margin: 1px 0; overflow: scroll; font-family: monospace;}
 fieldset.bc2-debug .title        {font-style: italic;}
 fieldset.bc2-debug hr.section    {padding: 0; margin-bottom: 2em; border: none; border-top: medium double #333; color: #333; text-align: center;}
 </style>

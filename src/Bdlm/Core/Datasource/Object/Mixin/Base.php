@@ -133,7 +133,7 @@ SQL
                                 , ['id' => $data['id']]
                             );
                             $row->load();
-                            $this->add($schema_name, $row);
+                            $this->addTo($schema_name, $row);
                         }
                     }
                 }
